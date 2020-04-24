@@ -56,12 +56,12 @@ widgets:
 # Key is the name of FontAwsome icon.
 # Value is the target link (E.g. GitHub: https://github.com/iTimeTraveler)
 social:
-  Github: https://github.com/iTimeTraveler
-  Weibo: 
-  Twitter: 
-  Facebook: 
-  Google-plus: 
-  Instagram: 
+  Github: https://github.com/Eagune
+  # Weibo: 
+  # Twitter: 
+  # Facebook: 
+  # Google-plus: 
+  # Instagram: 
 
 
 # Search
@@ -74,7 +74,7 @@ search:
 # comment ShortName, you can choose only ONE to display.
 duoshuo_shortname: 
 disqus_shortname: 
-livere_shortname: MTAyMC8yOTQ4MS82MDQ5
+livere_shortname: MTAyMC80OTg0OS8yNjM0MA
 uyan_uid: 
 wumii: 
 
