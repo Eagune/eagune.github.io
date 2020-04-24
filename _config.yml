@@ -99,3 +99,5 @@ theme: hipaper
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: ''
+  repo: https://github.com/Eagune/eagune.github.io.git
+  branch: master
