@@ -7,3 +7,4 @@ tags:
 - vue
 - Observer
 ---
+我们已经知道了变化侦测的原理了，并且知道了Object和Array的不同，现在我们封装一个Observer类，将一个数据对象中的所有属性都进行追踪。
