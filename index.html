@@ -104,7 +104,7 @@
         
           <section id="main">
   
-    <article id="post-vue/Vue中的变化侦测的原理"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-vue深入理解/Observer将数据变成响应式"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
     
@@ -112,7 +112,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2020/04/25/vue/Vue%E4%B8%AD%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86/">Vue中的变化侦测的原理</a>
+      <a class="article-title" href="/2020/04/25/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Observer%E5%B0%86%E6%95%B0%E6%8D%AE%E5%8F%98%E6%88%90%E5%93%8D%E5%BA%94%E5%BC%8F/">Observer将数据变成响应式</a>
     </h1>
   
 
@@ -120,11 +120,65 @@
     
     <div class="article-meta">
       
-	<a href="/2020/04/25/vue/Vue%E4%B8%AD%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86/" class="article-date">
-	  <time datetime="2020-04-25T01:21:51.823Z" itemprop="datePublished">April 25, 2020</time>
+	<a href="/2020/04/25/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Observer%E5%B0%86%E6%95%B0%E6%8D%AE%E5%8F%98%E6%88%90%E5%93%8D%E5%BA%94%E5%BC%8F/" class="article-date">
+	  <time datetime="2020-04-25T09:43:39.000Z" itemprop="datePublished">April 25, 2020</time>
 	</a>
 
-       
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">vue深入理解</a>
+ 
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们已经知道了变化侦测的原理了，并且知道了Object和Array的不同，现在我们封装一个Observer类，将一个数据对象中的所有属性都进行追踪。</p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">vue深入理解</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Observer/" rel="tag">Observer</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-vue深入理解/Vue中的变化侦测的原理"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2020/04/24/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86/">Vue中的变化侦测的原理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/04/24/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86/" class="article-date">
+	  <time datetime="2020-04-24T19:16:26.000Z" itemprop="datePublished">April 24, 2020</time>
+	</a>
+
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">vue深入理解</a>
+ 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
@@ -139,7 +193,13 @@
     </div>
     <footer class="entry-meta entry-footer">
       
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">vue深入理解</a>
+
       
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/" rel="tag">变化侦测</a></li></ul>
+
       
     </footer>
     <hr class="entry-footer-hr">
@@ -242,8 +302,20 @@
               <div class="widget-entry-summary" style="margin: 0;">
             
 
-              <h6 style="margin: 0;"><a href="/2020/04/25/vue/Vue%E4%B8%AD%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86/">Vue中的变化侦测的原理</a></h6>
+              <h6 style="margin: 0;"><a href="/2020/04/25/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Observer%E5%B0%86%E6%95%B0%E6%8D%AE%E5%8F%98%E6%88%90%E5%93%8D%E5%BA%94%E5%BC%8F/">Observer将数据变成响应式</a></h6>
               <span>April 25, 2020</span>
+            </div>
+
+          </li>
+        
+          <li class="clearfix">
+
+            
+              <div class="widget-entry-summary" style="margin: 0;">
+            
+
+              <h6 style="margin: 0;"><a href="/2020/04/24/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86/">Vue中的变化侦测的原理</a></h6>
+              <span>April 24, 2020</span>
             </div>
 
           </li>
@@ -254,19 +326,30 @@
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">vue深入理解</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Observer/" style="font-size: 10px;">Observer</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/" style="font-size: 10px;">变化侦测</a>
+    </div>
+  </div>
 
-  
-    
   
     
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
 
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -295,13 +378,8 @@
 
   <div class="clearfix container">
       <div class="site-info">
-	      &copy; 2020 Eagune&#39;s Blog All Rights Reserved.
-        
-            <span id="busuanzi_container_site_uv">
-              本站访客数<span id="busuanzi_value_site_uv"></span>人次  
-              本站总访问量<span id="busuanzi_value_site_pv"></span>次
-            </span>
-          
+        &copy; 2020 Eagune&#39;s Blog All Rights Reserved.
+        <script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1278845757'%3E%3C/span%3E%3Cscript src='https://s4.cnzz.com/z_stat.php%3Fid%3D1278845757%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
       </div>
       <div class="site-credit">
         Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
@@ -390,9 +468,6 @@
   </div>
 
 
-
-	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-	</script>
 
 
 
