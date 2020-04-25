@@ -4,11 +4,11 @@
 
 # Header Menu
 menu:
-  Home: /
-  Archives: archives
-  Categories: categories
-  Tags: tags
-  About: about
+  # Home: /
+  # Archives: archives
+  # Categories: categories
+  # Tags: tags
+  # About: about
 rss: /atom.xml
 
 
@@ -45,12 +45,12 @@ fancybox: true
 sidebar: right
 widgets:
 - search
-- social
-- recent_posts
+# - recent_posts
 - category
 # - tag
 - tagcloud
-- archive
+# - archive
+- social
 
 # Social Links
 # Key is the name of FontAwsome icon.

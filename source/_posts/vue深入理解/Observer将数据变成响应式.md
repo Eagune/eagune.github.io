@@ -1,8 +1,9 @@
 ---
-title: Observer将数据变成响应式
+title: （二）Observer将数据变成响应式
 date: 2020-04-25 09:43:39
 categories:
 - vue深入理解
+index: 1
 tags:
 - vue
 - Observer
@@ -30,6 +31,6 @@ function defineReactive(data, key, value) {
   if (typeof value === 'object') {
     new Observer(value);
   }
-  
+
 }
 ```
