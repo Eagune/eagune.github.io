@@ -1,5 +1,5 @@
 ---
-title: （二）Observer将数据变成响应式
+title: （二）Observer将数据对象变成响应式
 date: 2020-04-25 09:43:39
 categories:
 - vue深入理解
@@ -17,12 +17,14 @@ class Observer {
 
     if (!Array.isArray(value)) {
       this.walk(value);
+    } else {
+      value.__proto__ = arrayMethods;
     }
   }
 
   walk(object) {
     for (let key in object) {
-
+      defineReactive(object, key, object[key]);
     }
   }
 }
@@ -31,6 +33,18 @@ function defineReactive(data, key, value) {
   if (typeof value === 'object') {
     new Observer(value);
   }
-
+  Object.defineProperty(data, key, {
+    enumerable: true,
+    configurable: true,
+    get: function() {
+      return value;
+    },
+    set: function(newVal) {
+      if (value === newVal) {
+        return;
+      }
+      value = newVal;
+    }
+  });
 }
 ```
