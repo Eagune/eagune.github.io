@@ -48,7 +48,7 @@ widgets:
 - social
 - recent_posts
 - category
-- tag
+# - tag
 - tagcloud
 - archive
 
