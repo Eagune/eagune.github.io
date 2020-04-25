@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Vue中的变化侦测的原理 | Eagune&#39;s Blog</title>
+  <title>（一）Vue中的变化侦测的原理 | Eagune&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   <meta name="keywords" content="vue变化侦测" />
@@ -13,13 +13,13 @@
   
   <meta name="description" content="变化侦测是Vue中实现响应式的核心。它的作用是当数据变化时，通知视图进行相应的更新。 Object的变化侦测在javascript中有两种方法可以侦测到一个对象的变化：Object.defineProperty和ES6的Proxy。 12345678910111213function defineReactive(obj, property, value) &amp;#123;  Object.defin">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vue中的变化侦测的原理">
+<meta property="og:title" content="（一）Vue中的变化侦测的原理">
 <meta property="og:url" content="http://yoursite.com/2020/04/24/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="Eagune&#39;s Blog">
 <meta property="og:description" content="变化侦测是Vue中实现响应式的核心。它的作用是当数据变化时，通知视图进行相应的更新。 Object的变化侦测在javascript中有两种方法可以侦测到一个对象的变化：Object.defineProperty和ES6的Proxy。 12345678910111213function defineReactive(obj, property, value) &amp;#123;  Object.defin">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-04-24T19:16:26.000Z">
-<meta property="article:modified_time" content="2020-04-25T01:59:03.012Z">
+<meta property="article:modified_time" content="2020-04-25T03:10:07.585Z">
 <meta property="article:author" content="Eagune">
 <meta property="article:tag" content="vue">
 <meta property="article:tag" content="变化侦测">
@@ -86,16 +86,6 @@
             <div class="clearfix sf-menu">
               <ul id="main-nav" class="menu sf-js-enabled sf-arrows"  style="touch-action: pan-y;">
                     
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/">Home</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/archives">Archives</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/categories">Categories</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/tags">Tags</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/about">About</a> </li>
-                    
               </ul>
             </div>
           </nav>
@@ -118,7 +108,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      Vue中的变化侦测的原理
+      （一）Vue中的变化侦测的原理
     </h1>
   
 
@@ -192,7 +182,7 @@
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Observer将数据变成响应式
+          （二）Observer将数据变成响应式
         
       </div>
     </a>
@@ -219,16 +209,6 @@
 
     </div>
     <!-- <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/categories" class="mobile-nav-link">Categories</a>
-  
-    <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
   
 </nav> -->
     <footer id="footer" class="site-footer">
