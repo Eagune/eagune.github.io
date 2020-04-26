@@ -56,4 +56,40 @@ function defineReactive(data, key, value) {
   });
 }
 ```
-[查看DEMO](https://eagune.github.io/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A1.html)
+[查看DEMO](https://eagune.github.io/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A11.html)
+
+## parsePath让Watcher支持复杂的层级
+当对于更复杂的层级属性进行监听时（比如我们想侦测到data.a.b.c的时候），上面的方法显然是不够用的。因此我们需要对上面的方法进行升级。
+``` javascript
+function parsePath(path) {
+  const segments = path.split('.')
+  return function(obj) {
+    for (let i = 0; i < segments.length; i++) {
+      if (!obj) return;
+      obj = obj[segments[i]];
+    }
+    return obj;
+  }
+}
+
+class Watcher {
+  constructor(vm, expression, cb) {
+    this.vm = vm;
+    this.getter = parsePath(expression);
+    this.cb = cb;
+    
+    window.target = this;
+    this.value = this.getter.call(this.vm);
+    window.target = undefined;
+    
+    this.cb.call(this.vm, this.value);
+  }
+
+  update() {
+    const oldValue = this.value;
+    this.value = this.vm[this.key];
+    this.cb.call(this.vm, this.value, oldValue);
+  }
+}
+```
+[查看DEMO](https://eagune.github.io/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A12.html)
