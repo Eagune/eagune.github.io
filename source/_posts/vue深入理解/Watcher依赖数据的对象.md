@@ -31,4 +31,29 @@ class Watcher {
   }
 }
 ```
-[查看DEMO]()
+由于我们在getter中无法获取到调用它的对象，因此我们通过将Watcher挂载到全局对象的方法，在建立依赖关系的时候我们先将Watcher挂载到全局对象上，然后取值触发getter方法，这样在getter方法中就能将依赖的对象收集起来。
+``` javascript
+function defineReactive(data, key, value) {
+  let deps = [];
+  Object.defineProperty(data, key, {
+    enumerable: true,
+    configurable: true,
+    get: function() {
+      if(window.target) {
+        deps.push(window.target);
+      }
+      return value;
+    },
+    set: function(newVal) {
+      if (value === newVal) {
+        return;
+      }
+      value = newVal;
+      for (let i = 0; i < deps.length; i++) {
+        deps[i].update();
+      }
+    }
+  });
+}
+```
+[查看DEMO](https://eagune.github.io/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A1.html)
