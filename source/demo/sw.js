@@ -57,7 +57,7 @@ var __wpo = {
     "7cd5df7fa7056c1dedcb512266064d020e1e6336": "/demo/8.chunk.js",
     "26dc27f40be10004037fc562add8721412edf5f9": "/demo/9.chunk.js",
     "e6c962939effe3484ab3ca2de9aa1923343d3360": "/demo/vendor.js",
-    "69b3a7de7bc6fd0b08f827b122ea7fcc66fbaba6": "/demo/client.js",
+    "d4715837e3645345acbb84ceab33e3e923c3b5f0": "/demo/client.js",
     "e305f43b4b44b66cd70042ddac8ad6fb2f9788c5": "/demo/manifest.js",
     "d132d06c23ea2b3849386605bb098492d1280a1c": "/demo/client.css",
     "b03b7b93d76f2bfd367a9a266fa8a27a914be2ee": "/demo/vendor.css",
@@ -67,13 +67,13 @@ var __wpo = {
     "8521fb018c3a2fecec3b6e4940fc2a62ee7f65cd": "/demo/vendor/reason/refmt.js",
     "a34b5c810dd6e46ba070d1e33c6daa4c70730cc5": "/demo/vendor/reason/bs.js",
     "843777bf57a30c1e29caf7c6e16e2047bd3cef4f": "/demo/vendor/sass/sass.worker.js",
-    "ae846d638201bf72591956d20b5078a2d8c24275": "/demo/"
+    "531f765b37c5506ef329c7d43584d496e07d8903": "/demo/"
   },
   "navigateFallbackURL": "/",
   "navigateFallbackForRedirects": true,
   "strategy": "changed",
   "responseStrategy": "cache-first",
-  "version": "9fdce816ca5e76b2f55f65a277e06ac38acffe65",
+  "version": "75069f221d8deb799f2dfbbe9d9436267f9bc851",
   "name": "webpack-offline",
   "pluginVersion": "4.9.0",
   "relativePaths": false
