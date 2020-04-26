@@ -46,7 +46,7 @@ const arrayMethods = Object.create(arrayProto);
 ].forEach(function(method) {
   const original = arrayProto[method];
   Object.defineProperty(arrayMethods, method, {
-    value: function mutator(..args) {
+    value: function mutator(...args) {//使用rest参数可以避免将argumesnts对象转换为数组
       return original.apply(this, args)
     },
     enumerable: false, //不让方法出现在枚举属性中
