@@ -8,12 +8,8 @@ tags:
 - vue
 - Dep
 ---
-## 依赖收集的作用
-我们已经具备变化侦测的能力了，也就是说当数据变化的时候我们立马就知道了。在一个应用中可能会有多个地方使用到我们的这个数据，因此我们需要将这些依赖收集起来，当数据产生变化的时候通知他们。
-
-## Dep
-我们定义一个Dep类,通过depend方法可以将依赖数据的对象收集起来，notify方法可以通知所有的依赖数据的对象进行更新。
-我们通过将依赖数据的对象挂在到window.target上，当触发depend的时候将依赖数据的对象保存。
+## 封装Dep
+我们可以将defineReactive中收集依赖，通知依赖的命令式代码封装一下。
 ``` javascript
 class Dep {
   constructor(value) {
@@ -37,15 +33,15 @@ class Dep {
 ## 在defineReactive中使用Dep
 ``` javascript
 function defineReactive(data, key, value) {
-  let dep = new Dep();
   if (typeof value === 'object') {
     new Observer(value);
   }
+  let dep = new Dep();
   Object.defineProperty(data, key, {
     enumerable: true,
     configurable: true,
     get: function() {
-      dep.append(); //新增
+      dep.depend(); //新增
       return value;
     },
     set: function(newVal) {
@@ -53,11 +49,12 @@ function defineReactive(data, key, value) {
         return;
       }
       value = newVal;
-      dep.notify(); //通知
       if (typeof value === 'object') {
         new Observer(value);
       }
+      dep.notify(); //通知
     }
   });
 }
 ```
+[查看DEMO](https://eagune.github.io/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A11.html)
