@@ -96,6 +96,12 @@ google_site_verification:
 baidu_site_verification: ECCDdNqnWk
 qihu_site_verification:
 
+# 自动生成sitemap
+sitemap:
+path: sitemap.xml
+baidusitemap:
+path: baidusitemap.xml
+
 # Miscellaneous
 google_analytics:
 gauges_analytics:
