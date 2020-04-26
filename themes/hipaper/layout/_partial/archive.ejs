@@ -6,6 +6,9 @@
   <% if (is_archive()){ %>
     <div class="archives-tags-wrap"><blockquote><span><%= __('post_total_count', site.posts.length) %></span></blockquote>
   <% } %>
+  <div class="archive-year-wrap">
+    <h1 class="archive-category"><%= page.category || page.tag %></h1>
+  </div>
   <% var last; %>
   <% page.posts.sort('index').each(function(post, i){ %>
     <% var year = post.date.year(); %>
@@ -14,7 +17,7 @@
         </div></section>
       <% } %>
       <% last = year; %>
-      <section class="archives-wrap">
+      <!-- <section class="archives-wrap"> -->
         <!-- <div class="archive-year-wrap">
           <h1><a href="<%- url_for(config.archive_dir + '/' + year) %>" class="archive-year"><%= year %></a></h1>
         </div> -->
@@ -23,7 +26,8 @@
     <%- partial('archive-post', {post: post, even: i % 2 == 0}) %>
   <% }) %>
   <% if (page.posts.length){ %>
-    </div></section>
+    </div>
+  <!-- </section> -->
   <% } %>
 <% } %>
 <% if (page.total > 1){ %>
