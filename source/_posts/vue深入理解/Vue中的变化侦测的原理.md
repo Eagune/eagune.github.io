@@ -27,7 +27,7 @@ function defineReactive(obj, property, value) {
   })
 }
 ```
-[查看DEMO](https://eagune.github.io/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86.html)
+[查看DEMO](https://eagune.github.io/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%861.html)
 
 ## Array的变化侦测
 在对Object进行变化侦测的时候是使用getter/setter的方式来进行追踪。而用push等方法来改变数组中的内容时并不会出发setter。
@@ -55,3 +55,4 @@ const arrayMethods = Object.create(arrayProto);
   })
 })
 ```
+[查看DEMO](https://eagune.github.io/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%862.html)
