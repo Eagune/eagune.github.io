@@ -58,6 +58,96 @@ function defineReactive(data, key, value) {
 ```
 [查看DEMO](https://eagune.github.io/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A11.html)
 
+## 对于数组类型的触发
+我们对数组的侦测是通过拦截器进行的，因此他们发出通知的位置也是在拦截器中进行。
+由于需要在拦截器中访问到Watcher，因此我们要将依赖对象放到Observer中。我们改造一下Observer，当处理数组的时候，我们给数组添加一个\__ob__属性指向我们这个Observer。
+``` javascript
+class Observer {
+  constructor(value) {
+    this.value = value;
+
+    if (!Array.isArray(value)) {
+      this.walk(value);
+    } else {
+      this.deps = [];
+      let instance = this;
+      Object.defineProperty(value, '__ob__', {
+        value: instance,
+        enumerable: false,
+        writable: true,
+        configurable: true,
+      });
+      value.__proto__ = arrayMethods;
+    }
+  }
+
+  walk(object) { ... }
+}
+
+const arrayProto = Array.prototype;
+const arrayMethods = Object.create(arrayProto);
+[
+  'push',
+  'pop',
+  'shift',
+  'unshift',
+  'splice',
+  'sort',
+  'reverse'
+].forEach(function(method) {
+  const original = arrayProto[method];
+  Object.defineProperty(arrayMethods, method, {
+    value: function mutator(...args) {
+      const result = original.apply(this, args);
+      let deps = this.__ob__.deps;
+      for (let i = 0; i < deps.length; i++) {
+        deps[i].update();
+      }
+      return result;
+    },
+    enumerable: false,
+    writable: true,
+    configurable: true,
+  })
+})
+```
+虽然我们触发Watcher是在拦截器中，但是我们收集依赖还是在getter中的，而我们保存在observer中，因此我们还需要对收集依赖的地方进行改造。
+``` javascript
+function defineReactive(data, key, value) {
+  let instance;
+  if (typeof value === 'object') {
+    instance = new Observer(value);
+  }
+  let deps = [];
+  Object.defineProperty(data, key, {
+    enumerable: true,
+    configurable: true,
+    get: function() {
+      if(window.target) {
+        deps.push(window.target);
+        if(instance && instance.deps) {
+          instance.deps.push(window.target);
+        }
+      }
+      return value;
+    },
+    set: function(newVal) {
+      if (value === newVal) {
+        return;
+      }
+      value = newVal;
+      for (let i = 0; i < deps.length; i++) {
+        deps[i].update();
+      }
+      if (typeof value === 'object') {
+        new Observer(value);
+      }
+    }
+  });
+}
+```
+[查看DEMO](https://eagune.github.io/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A12.html)
+
 ## parsePath让Watcher支持复杂的层级
 当对于更复杂的层级属性进行监听时（比如我们想侦测到data.a.b.c的时候），上面的方法显然是不够用的。因此我们需要对上面的方法进行升级。
 ``` javascript
@@ -92,4 +182,4 @@ class Watcher {
   }
 }
 ```
-[查看DEMO](https://eagune.github.io/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A12.html)
+[查看DEMO](https://eagune.github.io/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A13.html)
