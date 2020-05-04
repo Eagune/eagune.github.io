@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>（五）用模板描述应用程序 | Eagune&#39;s Blog</title>
+  <title>（五）声明式地DOM绑定 | Eagune&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   <meta name="keywords" content="vue" />
@@ -13,15 +13,15 @@
     <meta name="baidu-site-verification" content="ECCDdNqnWk" />
   
   
-  <meta name="description" content="在前面的章节中我们已经知道了通过对数据进行劫持的方式可以让我们以这种通过数据驱动的方式去开发一个应用程序。但是如果全部在Watcher中做控制这样需要写很多重复性的控制视图的代码。 这样显然是很麻烦的，MVVM的核心是在MVC的基础上将view的状态行为抽象化。模板就是用来声明我们应用程序的数据与界面的绑定关系。 看一个例子 12345678&lt;div id&#x3D;&quot;app&quot;&gt;  &lt;di">
+  <meta name="description" content="模板在前面的章节中我们已经知道了通过对数据进行劫持的方式可以让我们以这种通过数据驱动的方式去开发一个应用程序。但是如果全部在Watcher中做控制这样需要写很多重复性的控制视图的代码。 这样显然是很麻烦的，MVVM的核心是在MVC的基础上将view的状态行为抽象化。 在Vue中模板就是用来声明我们应用程序的数据与界面的绑定关系。 模板的编译在Vue中模板不仅可以做到绑定数据还可以做到诸如循环判断等">
 <meta property="og:type" content="article">
-<meta property="og:title" content="（五）用模板描述应用程序">
-<meta property="og:url" content="https://eagune.github.io/2020/04/28/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E7%94%A8%E6%A8%A1%E6%9D%BF%E6%8F%8F%E8%BF%B0%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F/index.html">
+<meta property="og:title" content="（五）声明式地DOM绑定">
+<meta property="og:url" content="https://eagune.github.io/2020/04/28/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E5%A3%B0%E6%98%8E%E5%BC%8F%E5%9C%B0DOM%E7%BB%91%E5%AE%9A/index.html">
 <meta property="og:site_name" content="Eagune&#39;s Blog">
-<meta property="og:description" content="在前面的章节中我们已经知道了通过对数据进行劫持的方式可以让我们以这种通过数据驱动的方式去开发一个应用程序。但是如果全部在Watcher中做控制这样需要写很多重复性的控制视图的代码。 这样显然是很麻烦的，MVVM的核心是在MVC的基础上将view的状态行为抽象化。模板就是用来声明我们应用程序的数据与界面的绑定关系。 看一个例子 12345678&lt;div id&#x3D;&quot;app&quot;&gt;  &lt;di">
+<meta property="og:description" content="模板在前面的章节中我们已经知道了通过对数据进行劫持的方式可以让我们以这种通过数据驱动的方式去开发一个应用程序。但是如果全部在Watcher中做控制这样需要写很多重复性的控制视图的代码。 这样显然是很麻烦的，MVVM的核心是在MVC的基础上将view的状态行为抽象化。 在Vue中模板就是用来声明我们应用程序的数据与界面的绑定关系。 模板的编译在Vue中模板不仅可以做到绑定数据还可以做到诸如循环判断等">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-04-28T11:03:50.000Z">
-<meta property="article:modified_time" content="2020-04-30T05:11:12.488Z">
+<meta property="article:modified_time" content="2020-05-04T03:03:56.624Z">
 <meta property="article:author" content="Eagune">
 <meta property="article:tag" content="vue">
 <meta name="twitter:card" content="summary">
@@ -101,7 +101,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-vue深入理解/用模板描述应用程序" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-vue深入理解/声明式地DOM绑定" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
     
@@ -109,7 +109,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      （五）用模板描述应用程序
+      （五）声明式地DOM绑定
     </h1>
   
 
@@ -117,7 +117,7 @@
     
     <div class="article-meta">
       
-	<a href="/2020/04/28/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E7%94%A8%E6%A8%A1%E6%9D%BF%E6%8F%8F%E8%BF%B0%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F/" class="article-date">
+	<a href="/2020/04/28/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E5%A3%B0%E6%98%8E%E5%BC%8F%E5%9C%B0DOM%E7%BB%91%E5%AE%9A/" class="article-date">
 	  <time datetime="2020-04-28T11:03:50.000Z" itemprop="datePublished">April 28, 2020</time>
 	</a>
 
@@ -129,60 +129,15 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在前面的章节中我们已经知道了通过对数据进行劫持的方式可以让我们以这种通过数据驱动的方式去开发一个应用程序。但是如果全部在Watcher中做控制这样需要写很多重复性的控制视图的代码。</p>
-<p>这样显然是很麻烦的，MVVM的核心是在MVC的基础上将view的状态行为抽象化。模板就是用来声明我们应用程序的数据与界面的绑定关系。</p>
-<p>看一个例子</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"column"</span>&gt;</span></span><br><span class="line">    名称：<span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"name"</span>&gt;</span>&#123;&#123;name&#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"column"</span>&gt;</span></span><br><span class="line">    是否成年：<span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"age"</span>&gt;</span>&#123;&#123;age &gt;= 18 ? '成年' : '未成年'&#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>在上述例子中，我们的程序包含了一些判断循环的逻辑在里面，因此一定需要一个图灵完备的语言去实现。所以模板最终会转换成javascript用函数实现，而不是html。</p>
-<p>我们可以根据上面的程序编写出对应的js代码</p>
-<pre><code class="javascript"></code></pre>
-<!-- 
-``` javascript
-{
-  type: 1,
-  tag: 'div',
-  attrsList: [],
-  attrsMap: {},
-  children: [
-    {
-      type: 1,
-      tag: 'div',
-      attrsList: [],
-      attrsMap: {},
-      children: [
-        {
-          type: 2,
-          text: '名称：',
-        },
-        {
-          type: 1,
-          tag: 'span',
-          attrsList: [
-            {
-              name: 'id',
-              value: 'name'
-            }
-          ],
-          attrsMap: {
-            id: 'name'
-          },
-          children: [
-            {
-              type: 2,
-              expression: _s(name);
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-``` -->
-<!-- 
-我们用type表示节点的类型，1表示元素类型的节点，2表示文本类型的节点。对于数据的绑定关系我们使用表达式来表示。
-
-这样我们就把我们希望应用程序需要呈现的一个页面结构以及一些事件数据的绑定关系描述出来了。 -->
+        <h2 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h2><p>在前面的章节中我们已经知道了通过对数据进行劫持的方式可以让我们以这种通过数据驱动的方式去开发一个应用程序。但是如果全部在Watcher中做控制这样需要写很多重复性的控制视图的代码。</p>
+<p>这样显然是很麻烦的，MVVM的核心是在MVC的基础上将view的状态行为抽象化。</p>
+<p>在Vue中模板就是用来声明我们应用程序的数据与界面的绑定关系。</p>
+<h2 id="模板的编译"><a href="#模板的编译" class="headerlink" title="模板的编译"></a>模板的编译</h2><p>在Vue中模板不仅可以做到绑定数据还可以做到诸如循环判断等复杂功能，因此一定是一个图灵完备的语言去实现而不是html，它只是一种接近html的写法。</p>
+<p>在Javascript中模板本质上也就是字符串，因此在Vue的运行过程中还需要将我们的模板字符串转换成DOM节点，并在这个过程中实现与我们数据的绑定。</p>
+<p>模板的编译分为三个阶段：transclude阶段、compile阶段、linker阶段</p>
+<h3 id="transclude阶段"><a href="#transclude阶段" class="headerlink" title="transclude阶段"></a>transclude阶段</h3><h4 id="stringToFragment"><a href="#stringToFragment" class="headerlink" title="stringToFragment"></a>stringToFragment</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> tagRE = <span class="regexp">/&lt;([\w:-]+)/</span></span><br><span class="line"><span class="keyword">const</span> entityRE = <span class="regexp">/&amp;#?\w+?;/</span></span><br><span class="line"><span class="keyword">const</span> commentRE = <span class="regexp">/&lt;!--/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">stringToFragment</span> (<span class="params">templateString</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> frag = <span class="built_in">document</span>.createDocumentFragment()</span><br><span class="line">  <span class="keyword">var</span> tagMatch = templateString.match(tagRE)</span><br><span class="line">  <span class="keyword">var</span> entityMatch = entityRE.test(templateString)</span><br><span class="line">  <span class="keyword">var</span> commentMatch = commentRE.test(templateString)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!tagMatch &amp;&amp; !entityMatch &amp;&amp; !commentMatch) &#123;</span><br><span class="line">    <span class="comment">// text only, return a single text node.</span></span><br><span class="line">    frag.appendChild(</span><br><span class="line">      <span class="built_in">document</span>.createTextNode(templateString)</span><br><span class="line">    )</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> tag = tagMatch &amp;&amp; tagMatch[<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">var</span> node = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>)</span><br><span class="line">    node.innerHTML = templateString</span><br><span class="line">    frag.appendChild(child)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> frag</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E5%A3%B0%E6%98%8E%E5%BC%8F%E5%9C%B0DOM%E7%BB%91%E5%AE%9A.html">查看DEMO</a></p>
+<h3 id="compile阶段"><a href="#compile阶段" class="headerlink" title="compile阶段"></a>compile阶段</h3>
       
     </div>
     <footer class="entry-meta entry-footer">
@@ -227,11 +182,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/04/29/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E6%B8%B2%E6%9F%93%E5%87%BD%E6%95%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/04/30/%E5%90%84%E7%A7%8D%E4%BB%A3%E7%A0%81/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          （六）渲染函数
+          各种代码手写
         
       </div>
     </a>
@@ -253,7 +208,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-      <ol class="nav">None</ol>
+      <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#模板"><span class="nav-number">1.</span> <span class="nav-text">模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模板的编译"><span class="nav-number">2.</span> <span class="nav-text">模板的编译</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#transclude阶段"><span class="nav-number">2.1.</span> <span class="nav-text">transclude阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#stringToFragment"><span class="nav-number">2.1.1.</span> <span class="nav-text">stringToFragment</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#compile阶段"><span class="nav-number">2.2.</span> <span class="nav-text">compile阶段</span></a></li></ol></li></ol>
     
     </div>
   </aside>
