@@ -57,4 +57,4 @@ function defineReactive(data, key, value) {
   });
 }
 ```
-[查看DEMO](https://eagune.github.io/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Dep%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86.html)
+[查看DEMO](/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Dep%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86.html)
