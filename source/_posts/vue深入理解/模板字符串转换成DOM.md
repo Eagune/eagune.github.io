@@ -60,7 +60,7 @@ function stringToFragment (templateString) {
 我们将根节点的各种属性复制到根据模板生成的节点上，并替换掉html上的根节点。
 
 ``` javascript
-function compile (el, template) {
+function init (el, template) {
   var origin = el
   el = transcludeTemplate(el, template)
   var parent = origin.parentNode
