@@ -7,6 +7,7 @@ index: 2
 tags:
 - vue
 - Watcher
+- 依赖
 ---
 ## Watcher
 当我们侦测到数据变化的时候，需要对不同的情况进行不同的处理，显然我们不能都放在setter中，因此我们需要抽象出一个能集中处理这种情况的类。
@@ -59,8 +60,11 @@ function defineReactive(data, key, value) {
 [查看DEMO](/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A11.html)
 
 ## 对于数组类型的触发
+
 我们对数组的侦测是通过拦截器进行的，因此他们发出通知的位置也是在拦截器中进行。
+
 由于需要在拦截器中访问到Watcher，因此我们要将依赖对象放到Observer中。我们改造一下Observer，当处理数组的时候，我们给数组添加一个\__ob__属性指向我们这个Observer。
+
 ``` javascript
 class Observer {
   constructor(value) {

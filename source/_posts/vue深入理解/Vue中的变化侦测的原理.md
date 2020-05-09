@@ -7,6 +7,8 @@ index: 0
 tags:
 - vue
 - 变化侦测
+- defineReactive
+- Object.defineProperty
 ---
 变化侦测是Vue中实现响应式的核心。它的作用是当数据变化时，通知视图进行相应的更新。
 
