@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>（五）模板字符串转换成DOM | Eagune&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="vue" />
+  
+  
+  
+    <meta name="baidu-site-verification" content="ECCDdNqnWk" />
+  
+  
+  <meta name="description" content="模板在前面的章节中我们已经知道了通过对数据进行劫持的方式可以让我们以这种通过数据驱动的方式去开发一个应用程序。但是如果全部在Watcher中做控制这样需要写很多重复性的控制视图的代码。 这样显然是很麻烦的，MVVM的核心是在MVC的基础上将view的状态行为抽象化。 在Vue中模板就是用来声明我们应用程序的数据与界面的绑定关系。 在Vue中模板不仅可以做到绑定数据还可以做到诸如循环判断等复杂功能，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="（五）模板字符串转换成DOM">
+<meta property="og:url" content="https://eagune.github.io/2020/05/09/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E6%88%90DOM/index.html">
+<meta property="og:site_name" content="Eagune&#39;s Blog">
+<meta property="og:description" content="模板在前面的章节中我们已经知道了通过对数据进行劫持的方式可以让我们以这种通过数据驱动的方式去开发一个应用程序。但是如果全部在Watcher中做控制这样需要写很多重复性的控制视图的代码。 这样显然是很麻烦的，MVVM的核心是在MVC的基础上将view的状态行为抽象化。 在Vue中模板就是用来声明我们应用程序的数据与界面的绑定关系。 在Vue中模板不仅可以做到绑定数据还可以做到诸如循环判断等复杂功能，">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-09T17:55:06.000Z">
+<meta property="article:modified_time" content="2020-05-09T13:35:40.915Z">
+<meta property="article:author" content="Eagune">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Eagune&#39;s Blog" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+  <link rel="stylesheet" href="/css/fashion.css" >
+  <link rel="stylesheet" href="/css/glyphs.css" >
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+
+
+<header id="allheader" class="site-header" role="banner" 
+   >
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="Eagune&#39;s Blog" rel="home"> Eagune&#39;s Blog </a>
+            
+          </h1>
+          
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows"  style="touch-action: pan-y;">
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-vue深入理解/模板字符串转换成DOM" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      （五）模板字符串转换成DOM
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/05/09/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E6%88%90DOM/" class="article-date">
+	  <time datetime="2020-05-09T17:55:06.000Z" itemprop="datePublished">May 9, 2020</time>
+	</a>
+
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">vue深入理解</a>
+ 
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h2><p>在前面的章节中我们已经知道了通过对数据进行劫持的方式可以让我们以这种通过数据驱动的方式去开发一个应用程序。但是如果全部在Watcher中做控制这样需要写很多重复性的控制视图的代码。</p>
+<p>这样显然是很麻烦的，MVVM的核心是在MVC的基础上将view的状态行为抽象化。</p>
+<p>在Vue中模板就是用来声明我们应用程序的数据与界面的绑定关系。</p>
+<p>在Vue中模板不仅可以做到绑定数据还可以做到诸如循环判断等复杂功能，因此一定是一个图灵完备的语言去实现而不是html，它只是一种接近html的写法。</p>
+<p>在Javascript中模板本质上也就是字符串，因此在Vue的运行过程中还需要将我们的模板字符串转换成DOM节点，并在这个过程中实现与我们数据的绑定。</p>
+<h2 id="stringToFragment"><a href="#stringToFragment" class="headerlink" title="stringToFragment"></a>stringToFragment</h2><p>为什么要将字符串转换为Fragment呢？因为频繁调用DOM的API会非常耗性能，而我们使用虚拟的节点对象会减少页面渲染dom的次数，效率会明显提升。</p>
+<p>同时使用innerHTML让浏览器自行解析可以很方便的帮我们将字符串转换成合法的DOM节点，为我们后续的操作提供便利。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> tagRE = <span class="regexp">/&lt;([\w:-]+)/</span></span><br><span class="line"><span class="keyword">const</span> entityRE = <span class="regexp">/&amp;#?\w+?;/</span></span><br><span class="line"><span class="keyword">const</span> commentRE = <span class="regexp">/&lt;!--/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">stringToFragment</span> (<span class="params">templateString</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> frag = <span class="built_in">document</span>.createDocumentFragment()</span><br><span class="line">  <span class="keyword">var</span> tagMatch = templateString.match(tagRE)</span><br><span class="line">  <span class="keyword">var</span> entityMatch = entityRE.test(templateString)</span><br><span class="line">  <span class="keyword">var</span> commentMatch = commentRE.test(templateString)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!tagMatch &amp;&amp; !entityMatch &amp;&amp; !commentMatch) &#123;</span><br><span class="line">    <span class="comment">// text only, return a single text node.</span></span><br><span class="line">    frag.appendChild(</span><br><span class="line">      <span class="built_in">document</span>.createTextNode(templateString)</span><br><span class="line">    )</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> node = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>)</span><br><span class="line">    node.innerHTML = templateString</span><br><span class="line">    frag.appendChild(node)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> frag</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 较源码省略了的地方：诸如td、option等需要嵌套的标签如果直接使用生成的fragment并不会生效，我们需要手动的拼接加上外层。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="transclude"><a href="#transclude" class="headerlink" title="transclude"></a>transclude</h2><p>我们将根节点的各种属性复制到根据模板生成的节点上，并替换掉html上的根节点。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compile</span> (<span class="params">el, template</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> origin = el</span><br><span class="line">  el = transcludeTemplate(el, template)</span><br><span class="line">  <span class="keyword">var</span> parent = origin.parentNode</span><br><span class="line">  <span class="keyword">if</span> (parent) &#123;</span><br><span class="line">    parent.replaceChild(el, origin)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> el</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">transcludeTemplate</span> (<span class="params">el, template</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> frag = stringToFragment(template)</span><br><span class="line">  <span class="keyword">var</span> replacer = frag.firstChild</span><br><span class="line">  <span class="keyword">var</span> attrs = el.attributes</span><br><span class="line">  <span class="keyword">var</span> i = attrs.length</span><br><span class="line">  <span class="keyword">var</span> name, value</span><br><span class="line">  <span class="keyword">while</span> (i--) &#123;</span><br><span class="line">    name = attrs[i].name</span><br><span class="line">    value = attrs[i].value</span><br><span class="line">    <span class="keyword">if</span> (!replacer.hasAttribute(name)) &#123;</span><br><span class="line">      replacer.setAttribute(name, value)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> replacer</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E6%88%90DOM.html">查看DEMO</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">vue深入理解</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC80OTg0OS8yNjM0MA">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/04/30/%E5%90%84%E7%A7%8D%E4%BB%A3%E7%A0%81/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">各种代码手写</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#模板"><span class="nav-number">1.</span> <span class="nav-text">模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stringToFragment"><span class="nav-number">2.</span> <span class="nav-text">stringToFragment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#transclude"><span class="nav-number">3.</span> <span class="nav-text">transclude</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+        &copy; 2020 Eagune&#39;s Blog All Rights Reserved.
+        <script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1278845757'%3E%3C/span%3E%3Cscript src='https://s4.cnzz.com/z_stat.php%3Fid%3D1278845757%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/bootstrap.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1278845757&web_id=1278845757" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+  <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+</body>
+</html>
