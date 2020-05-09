@@ -96,6 +96,56 @@
         
           <section id="main">
   
+    <article id="post-vue深入理解/表达式解析"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2020/05/09/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%A7%A3%E6%9E%90/">（六）表达式解析</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/05/09/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%A7%A3%E6%9E%90/" class="article-date">
+	  <time datetime="2020-05-09T22:33:25.000Z" itemprop="datePublished">May 9, 2020</time>
+	</a>
+
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">vue深入理解</a>
+ 
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">vue深入理解</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%A7%A3%E6%9E%90/" rel="tag">表达式解析</a></li></ul>
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
     <article id="post-vue深入理解/模板字符串转换成DOM"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
@@ -134,7 +184,7 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> tagRE = <span class="regexp">/&lt;([\w:-]+)/</span></span><br><span class="line"><span class="keyword">const</span> entityRE = <span class="regexp">/&amp;#?\w+?;/</span></span><br><span class="line"><span class="keyword">const</span> commentRE = <span class="regexp">/&lt;!--/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">stringToFragment</span> (<span class="params">templateString</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> frag = <span class="built_in">document</span>.createDocumentFragment()</span><br><span class="line">  <span class="keyword">var</span> tagMatch = templateString.match(tagRE)</span><br><span class="line">  <span class="keyword">var</span> entityMatch = entityRE.test(templateString)</span><br><span class="line">  <span class="keyword">var</span> commentMatch = commentRE.test(templateString)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!tagMatch &amp;&amp; !entityMatch &amp;&amp; !commentMatch) &#123;</span><br><span class="line">    <span class="comment">// text only, return a single text node.</span></span><br><span class="line">    frag.appendChild(</span><br><span class="line">      <span class="built_in">document</span>.createTextNode(templateString)</span><br><span class="line">    )</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> node = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>)</span><br><span class="line">    node.innerHTML = templateString</span><br><span class="line">    frag.appendChild(node)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> frag</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 较源码省略了的地方：诸如td、option等需要嵌套的标签如果直接使用生成的fragment并不会生效，我们需要手动的拼接加上外层。</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="transclude"><a href="#transclude" class="headerlink" title="transclude"></a>transclude</h2><p>我们将根节点的各种属性复制到根据模板生成的节点上，并替换掉html上的根节点。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compile</span> (<span class="params">el, template</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> origin = el</span><br><span class="line">  el = transcludeTemplate(el, template)</span><br><span class="line">  <span class="keyword">var</span> parent = origin.parentNode</span><br><span class="line">  <span class="keyword">if</span> (parent) &#123;</span><br><span class="line">    parent.replaceChild(el, origin)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> el</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">transcludeTemplate</span> (<span class="params">el, template</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> frag = stringToFragment(template)</span><br><span class="line">  <span class="keyword">var</span> replacer = frag.firstChild</span><br><span class="line">  <span class="keyword">var</span> attrs = el.attributes</span><br><span class="line">  <span class="keyword">var</span> i = attrs.length</span><br><span class="line">  <span class="keyword">var</span> name, value</span><br><span class="line">  <span class="keyword">while</span> (i--) &#123;</span><br><span class="line">    name = attrs[i].name</span><br><span class="line">    value = attrs[i].value</span><br><span class="line">    <span class="keyword">if</span> (!replacer.hasAttribute(name)) &#123;</span><br><span class="line">      replacer.setAttribute(name, value)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> replacer</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">init</span> (<span class="params">el, template</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> origin = el</span><br><span class="line">  el = transcludeTemplate(el, template)</span><br><span class="line">  <span class="keyword">var</span> parent = origin.parentNode</span><br><span class="line">  <span class="keyword">if</span> (parent) &#123;</span><br><span class="line">    parent.replaceChild(el, origin)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> el</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">transcludeTemplate</span> (<span class="params">el, template</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> frag = stringToFragment(template)</span><br><span class="line">  <span class="keyword">var</span> replacer = frag.firstChild</span><br><span class="line">  <span class="keyword">var</span> attrs = el.attributes</span><br><span class="line">  <span class="keyword">var</span> i = attrs.length</span><br><span class="line">  <span class="keyword">var</span> name, value</span><br><span class="line">  <span class="keyword">while</span> (i--) &#123;</span><br><span class="line">    name = attrs[i].name</span><br><span class="line">    value = attrs[i].value</span><br><span class="line">    <span class="keyword">if</span> (!replacer.hasAttribute(name)) &#123;</span><br><span class="line">      replacer.setAttribute(name, value)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> replacer</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><a href="/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E6%88%90DOM.html">查看DEMO</a></p>
 
       
@@ -558,7 +608,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">vue深入理解</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">vue深入理解</a><span class="category-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -568,7 +618,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Dep/" style="font-size: 10px;">Dep</a> <a href="/tags/Fragment/" style="font-size: 10px;">Fragment</a> <a href="/tags/Object-defineProperty/" style="font-size: 10px;">Object.defineProperty</a> <a href="/tags/Observer/" style="font-size: 10px;">Observer</a> <a href="/tags/Watcher/" style="font-size: 10px;">Watcher</a> <a href="/tags/defineReactive/" style="font-size: 10px;">defineReactive</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/%E4%BE%9D%E8%B5%96/" style="font-size: 10px;">依赖</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86/" style="font-size: 10px;">依赖收集</a> <a href="/tags/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/" style="font-size: 10px;">变化侦测</a> <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F/" style="font-size: 10px;">响应式</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E8%BD%AC%E6%8D%A2/" style="font-size: 10px;">转换</a>
+      <a href="/tags/Dep/" style="font-size: 10px;">Dep</a> <a href="/tags/Fragment/" style="font-size: 10px;">Fragment</a> <a href="/tags/Object-defineProperty/" style="font-size: 10px;">Object.defineProperty</a> <a href="/tags/Observer/" style="font-size: 10px;">Observer</a> <a href="/tags/Watcher/" style="font-size: 10px;">Watcher</a> <a href="/tags/defineReactive/" style="font-size: 10px;">defineReactive</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/%E4%BE%9D%E8%B5%96/" style="font-size: 10px;">依赖</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86/" style="font-size: 10px;">依赖收集</a> <a href="/tags/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/" style="font-size: 10px;">变化侦测</a> <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F/" style="font-size: 10px;">响应式</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%A7%A3%E6%9E%90/" style="font-size: 10px;">表达式解析</a> <a href="/tags/%E8%BD%AC%E6%8D%A2/" style="font-size: 10px;">转换</a>
     </div>
   </div>
 
