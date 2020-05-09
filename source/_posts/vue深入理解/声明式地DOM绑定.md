@@ -1,8 +1,6 @@
 ---
 title: （五）声明式地DOM绑定
 date: 2020-04-28 11:03:50
-categories:
-- vue深入理解
 index: 5
 tags:
 - vue
@@ -21,7 +19,7 @@ tags:
 
 在Javascript中模板本质上也就是字符串，因此在Vue的运行过程中还需要将我们的模板字符串转换成DOM节点，并在这个过程中实现与我们数据的绑定。
 
-模板的编译分为三个阶段：transclude阶段、compile阶段、linker阶段
+模板的编译分为三个阶段：transclude阶段、compile阶段、link阶段
 
 ### transclude阶段
 
@@ -119,6 +117,8 @@ function makeChildLinkFn (linkFns) {
 
 我们可以看到其实compile方法就是对transclude阶段生成的fragment递归调用，遍历所有子节点对其执行compileNode,如果节点类型为1则compileElement，如果节点类型为3则compileTextNode。下面我们重点看看这两个方法。
 
+#### compileElement
+
 ``` javascript
 function compileElement (el, options) {
   var linkFn
@@ -142,41 +142,31 @@ function compileElement (el, options) {
   }
   return linkFn
 }
+
+// 较源码省略了的地方：TEXTAREA的特殊处理
 ```
 
-较源码省略了的地方：TEXTAREA的特殊处理。
+compileElement按照terminal指令，元素指令，组件，普通指令的优先级检查指令的类型，并返回对应的link函数。
 
-``` javascript
-function compileTextNode (node, options) {
-  var tokens = parseText(node.wholeText)
-  if (!tokens) {
-    return null
-  }
+#### compileTextNode
 
-  var frag = document.createDocumentFragment()
-  var el, token
-  for (var i = 0, l = tokens.length; i < l; i++) {
-    token = tokens[i]
-    el = token.tag
-      ? processTextToken(token, options)
-      : document.createTextNode(token.value)
-    frag.appendChild(el)
-  }
-  return makeTextNodeLinkFn(tokens, frag, options)
-}
-```
-
-较源码省略了的地方：对IE有时候将单个文本节点分解为多个的问题的兼容处理。
+首先我们看一下对文本内容的解析parseText
 
 ``` javascript
 function parseText (text) {
   var tagRE = /\{\{((?:.|\n)+?)\}\}/g
+  // (?:.|\n)中，.匹配换行符以外的字符
+  // 因为有的系统的换行符是\r\n
+  // 所以.|\n匹配除了\r之外的任意字符
+  // ?:表示非捕获型括号，所以整个的就是匹配任意一个非\r的字符
 
   if (!tagRE.test(text)) {
     return null
   }
   var tokens = []
   var lastIndex = tagRE.lastIndex = 0
+  // 在正则中lastIndex属性用于规定下次匹配的起始位置
+  // 因此我们每次匹配到后需要设置lastIndex为0下次才会匹配到正确的结果
   var match, index, html, value
   while (match = tagRE.exec(text)) {
     index = match.index
@@ -201,10 +191,77 @@ function parseText (text) {
   }
   return tokens
 }
+
+// 较源码省略了的地方：缓存、三重大括号显示html。
+```
+[查看DEMO](/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E5%A3%B0%E6%98%8E%E5%BC%8F%E5%9C%B0DOM%E7%BB%91%E5%AE%9A.html)
+
+parseText将节点的文字根据分隔符将其分开(默认分隔符是双大括号)，将其保存到tokens数组中，同时对分隔符中的内容标记tag:true。
+
+``` javascript
+function compileTextNode (node, options) {
+  var tokens = parseText(node.wholeText)
+  if (!tokens) {
+    return null
+  }
+
+  var frag = document.createDocumentFragment()
+  var el, token
+  for (var i = 0, l = tokens.length; i < l; i++) {
+    token = tokens[i]
+    el = token.tag
+      ? processTextToken(token, options)
+      : document.createTextNode(token.value)
+    frag.appendChild(el)
+  }
+  return makeTextNodeLinkFn(tokens, frag, options)
+}
+
+// 较源码省略了的地方：对IE有时候将单个文本节点分解为多个的问题的兼容处理。
+
+function processTextToken (token, options) {
+  // IE will clean up empty textNodes during
+  // frag.cloneNode(true), so we have to give it
+  // something here...
+  var el = document.createTextNode(' ')
+  if (token.descriptor) return
+  token.descriptor = {
+    name: 'text',
+    def: {
+      bind () {
+        this.attr = this.el.nodeType === 3 ? 'data' : 'textContent'
+      },
+      update (value) {
+        this.el[this.attr] = value == null ? '' : value.toString()
+      }
+    },
+    expression: token.value,
+  }
+  return el
+}
+
+// 较源码省略了的地方：filter的解析。
+
+function makeTextNodeLinkFn (tokens, frag) {
+  return function textNodeLinkFn (vm, el, host, scope) {
+    var fragClone = frag.cloneNode(true)
+    var childNodes = Array.prototype.slice.call(fragClone.childNodes)
+    var token, value, node
+    for (var i = 0, l = tokens.length; i < l; i++) {
+      token = tokens[i]
+      value = token.value
+      if (token.tag) {
+        node = childNodes[i]
+        vm._bindDir(token.descriptor, node, host, scope)
+      }
+    }
+    replace(el, fragClone)
+  }
+}
 ```
 
-较源码省略了的地方：缓存、三重大括号显示html。
+compileTextNode就是根据parseText处理后的tokens，创建出了对应的子文本节点，最后返回一个link函数。
 
-(?:.|\n)中，.匹配换行符以外的字符，因为有的系统的换行符是\r\n，所以.|\n匹配除了\r之外的任意字符，?:表示非捕获型括号，所以整个的就是匹配任意一个非\r的字符
+### link阶段
 
-在正则中lastIndex属性用于规定下次匹配的起始位置，因此我们每次匹配到后需要设置lastIndex为0下次才会匹配到正确的结果。
+link阶段其实没有什么特别的，就是将compile阶段返回的高阶函数link执行。
