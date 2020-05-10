@@ -13,15 +13,15 @@
     <meta name="baidu-site-verification" content="ECCDdNqnWk" />
   
   
-  <meta name="description" content="Watcher当我们侦测到数据变化的时候，需要对不同的情况进行不同的处理，显然我们不能都放在setter中，因此我们需要抽象出一个能集中处理这种情况的类。 12345678910111213141516171819class Watcher &amp;#123;  constructor(vm, key, cb) &amp;#123;    this.vm &#x3D; vm;    this.key &#x3D; key;">
+  <meta name="description" content="Watcher当我们侦测到数据变化的时候，需要对不同的情况进行不同的处理，显然我们不能都放在setter中，因此我们需要抽象出一个能集中处理这种情况的类。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="（三）Watcher依赖数据的对象">
 <meta property="og:url" content="https://eagune.github.io/2020/04/26/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A1/index.html">
 <meta property="og:site_name" content="Eagune&#39;s Blog">
-<meta property="og:description" content="Watcher当我们侦测到数据变化的时候，需要对不同的情况进行不同的处理，显然我们不能都放在setter中，因此我们需要抽象出一个能集中处理这种情况的类。 12345678910111213141516171819class Watcher &amp;#123;  constructor(vm, key, cb) &amp;#123;    this.vm &#x3D; vm;    this.key &#x3D; key;">
+<meta property="og:description" content="Watcher当我们侦测到数据变化的时候，需要对不同的情况进行不同的处理，显然我们不能都放在setter中，因此我们需要抽象出一个能集中处理这种情况的类。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-04-26T09:58:52.000Z">
-<meta property="article:modified_time" content="2020-05-10T13:44:24.832Z">
+<meta property="article:modified_time" content="2020-05-10T14:52:27.259Z">
 <meta property="article:author" content="Eagune">
 <meta property="article:tag" content="vue">
 <meta property="article:tag" content="Watcher">
@@ -132,6 +132,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="Watcher"><a href="#Watcher" class="headerlink" title="Watcher"></a>Watcher</h2><p>当我们侦测到数据变化的时候，需要对不同的情况进行不同的处理，显然我们不能都放在setter中，因此我们需要抽象出一个能集中处理这种情况的类。</p>
+<a id="more"></a>
+
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Watcher</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(vm, key, cb) &#123;</span><br><span class="line">    <span class="keyword">this</span>.vm = vm;</span><br><span class="line">    <span class="keyword">this</span>.key = key;</span><br><span class="line">    <span class="keyword">this</span>.cb = cb;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">window</span>.target = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">this</span>.value = <span class="keyword">this</span>.vm[<span class="keyword">this</span>.key];</span><br><span class="line">    <span class="built_in">window</span>.target = <span class="literal">undefined</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">this</span>.cb.call(<span class="keyword">this</span>.vm, <span class="keyword">this</span>.value);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  update() &#123;</span><br><span class="line">    <span class="keyword">const</span> oldValue = <span class="keyword">this</span>.value;</span><br><span class="line">    <span class="keyword">this</span>.value = <span class="keyword">this</span>.vm[<span class="keyword">this</span>.key];</span><br><span class="line">    <span class="keyword">this</span>.cb.call(<span class="keyword">this</span>.vm, <span class="keyword">this</span>.value, oldValue);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>由于我们在getter中无法获取到调用它的对象，因此我们通过将Watcher挂载到全局对象的方法，在建立依赖关系的时候我们先将Watcher挂载到全局对象上，然后取值触发getter方法，这样在getter方法中就能将依赖的对象收集起来。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">defineReactive</span>(<span class="params">data, key, value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> deps = [];</span><br><span class="line">  <span class="built_in">Object</span>.defineProperty(data, key, &#123;</span><br><span class="line">    enumerable: <span class="literal">true</span>,</span><br><span class="line">    configurable: <span class="literal">true</span>,</span><br><span class="line">    <span class="keyword">get</span>: function() &#123;</span><br><span class="line">      <span class="keyword">if</span>(<span class="built_in">window</span>.target) &#123;</span><br><span class="line">        deps.push(<span class="built_in">window</span>.target);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> value;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="keyword">set</span>: function(newVal) &#123;</span><br><span class="line">      <span class="keyword">if</span> (value === newVal) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      value = newVal;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; deps.length; i++) &#123;</span><br><span class="line">        deps[i].update();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -190,11 +192,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/04/28/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E5%A3%B0%E6%98%8E%E5%BC%8F%E5%9C%B0DOM%E7%BB%91%E5%AE%9A/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/04/30/%E5%90%84%E7%A7%8D%E4%BB%A3%E7%A0%81/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          （五）声明式地DOM绑定
+          各种代码手写
         
       </div>
     </a>
