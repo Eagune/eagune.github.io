@@ -10,7 +10,11 @@ tags:
 - 依赖
 ---
 ## Watcher
+
 当我们侦测到数据变化的时候，需要对不同的情况进行不同的处理，显然我们不能都放在setter中，因此我们需要抽象出一个能集中处理这种情况的类。
+
+<!--more-->
+
 ``` javascript
 class Watcher {
   constructor(vm, key, cb) {

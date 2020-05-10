@@ -11,6 +11,9 @@ tags:
 ---
 ## 封装Dep
 我们可以将defineReactive中收集依赖，通知依赖的命令式代码封装一下。
+
+<!--more-->
+
 ``` javascript
 class Dep {
   constructor(value) {

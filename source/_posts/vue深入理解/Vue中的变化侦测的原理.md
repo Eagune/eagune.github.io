@@ -10,7 +10,10 @@ tags:
 - defineReactive
 - Object.defineProperty
 ---
+
 变化侦测是Vue中实现响应式的核心。它的作用是当数据变化时，通知视图进行相应的更新。
+
+<!--more-->
 
 ## Object的变化侦测
 在javascript中有两种方法可以侦测到一个对象的变化：Object.defineProperty和ES6的Proxy。
