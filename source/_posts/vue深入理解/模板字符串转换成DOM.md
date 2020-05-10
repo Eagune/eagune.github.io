@@ -63,11 +63,15 @@ function stringToFragment (templateString) {
 function init (el, template) {
   var origin = el
   el = transcludeTemplate(el, template)
-  var parent = origin.parentNode
-  if (parent) {
-    parent.replaceChild(el, origin)
-  }
+  replace(origin, el)
   return el
+}
+
+function replace (target, el) {
+  var parent = target.parentNode
+  if (parent) {
+    parent.replaceChild(el, target)
+  }
 }
 
 function transcludeTemplate (el, template) {
