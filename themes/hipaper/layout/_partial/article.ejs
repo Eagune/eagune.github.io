@@ -18,7 +18,7 @@
             <a href="<%- url_for(post.path) %>"><img src="<%= post.photos[0] %>" class="attachment-thumb-featured size-thumb-featured wp-post-image" alt=""></a>
           </div>
           <div class="entry-summary">
-          <%- strip_html(post.excerpt) %>
+          <%- post.excerpt %>
 
         <% } else { %>
 
@@ -28,7 +28,7 @@
             </div>
           <% } %>
           <div class="entry-summary">
-          <%- strip_html(post.excerpt) %>
+          <%- post.excerpt %>
 
         <% } %>
           <p class="article-more-link">
