@@ -444,7 +444,7 @@ body {
   font-weight: normal;
 }
 .article-date:hover {
-  color: #1fa0ae;
+  color: #00aced;
 }
 .article-category {
   text-align: center;
@@ -465,7 +465,7 @@ body {
   color: #333;
 }
 .article-category-link:hover {
-  color: #1fa0ae;
+  color: #00aced;
 }
 .article-header h1 {
   margin: 0 0 3px 0;
@@ -488,7 +488,7 @@ body {
   transition: color 0.2s;
 }
 a.article-title:hover {
-  color: #1fa0ae;
+  color: #00aced;
   text-decoration: none;
 }
 .article-entry {
@@ -530,7 +530,7 @@ a.article-title:hover {
   text-decoration: none;
 }
 .article-entry a:hover {
-  color: #1fa0ae;
+  color: #00aced;
   text-decoration: none;
 }
 .article-entry ul,
@@ -658,7 +658,7 @@ a.article-title:hover {
   text-align: center;
 }
 .article-more-link a {
-  color: #1fa0ae;
+  color: #00aced;
   display: inline-block;
   font-size: 0.9em;
   line-height: 1em;
@@ -1034,7 +1034,7 @@ a.article-title:hover {
   font-weight: bold;
   color: #333;
   text-align: center;
-  border-left: 0px solid #1fa0ae;
+  border-left: 0px solid #00aced;
   background: rgba(208,211,248,0.15);
 }
 .archives-tags-wrap blockquote a {
@@ -1042,7 +1042,7 @@ a.article-title:hover {
   margin: 0.2em;
 }
 .archives-tags-wrap blockquote a:hover {
-  color: #1fa0ae;
+  color: #00aced;
 }
 .archive-tag {
   text-transform: none;
@@ -1061,9 +1061,9 @@ a.article-title:hover {
   font-size: 1.1em;
   font-weight: bold;
   line-height: 1.7em;
-  color: #1fa0ae;
+  color: #00aced;
   text-align: left;
-  border-left: 0px solid #1fa0ae;
+  border-left: 0px solid #00aced;
   background: rgba(208,211,248,0.15);
 }
 .archives-category-wrap blockquote a {
@@ -1071,7 +1071,7 @@ a.article-title:hover {
   margin: 0.2em;
 }
 .archives-category-wrap blockquote a:hover {
-  color: #1fa0ae;
+  color: #00aced;
 }
 .archives-category-wrap blockquote a:before {
   font-family: "FontAwesome";
@@ -1129,7 +1129,7 @@ a.article-title:hover {
   padding-left: 15px;
 }
 .archive-article-title:hover {
-  color: #1fa0ae;
+  color: #00aced;
 }
 .archive-article-footer {
   margin-top: 1em;
@@ -1146,7 +1146,7 @@ a.article-title:hover {
   font-family: 'Helvetica Neue', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', 'Microsoft Yahei', sans-serif;
 }
 .archive-article-date:hover {
-  color: #1fa0ae;
+  color: #00aced;
 }
 #page-nav {
   font-family: Oswald, "Microsoft Yahei", Arial, Helvetica, sans-serif;
@@ -1179,7 +1179,7 @@ a.article-title:hover {
   text-decoration: none;
 }
 #page-nav a:hover {
-  background: #1fa0ae;
+  background: #00aced;
   color: #fff;
 }
 #page-nav .prev {
@@ -1592,7 +1592,7 @@ pre .xml .cdata {
   box-sizing: border-box;
   width: 540px;
   margin-left: -270px;
-  border-top: 2px solid #1fa0ae;
+  border-top: 2px solid #00aced;
 }
 @media screen and (max-width: 559px), screen and (max-height: 479px) {
   .ins-search-container {
@@ -1698,7 +1698,7 @@ pre .xml .cdata {
   text-decoration: none;
 }
 .widget a:hover {
-  color: #1fa0ae;
+  color: #00aced;
   text-decoration: none;
 }
 .widget ul ul,
@@ -1732,7 +1732,7 @@ pre .xml .cdata {
   font-family: Oswald, "Microsoft Yahei", Arial, Helvetica, sans-serif;
 }
 .widget_athemes_tabs .widget ul li a:hover {
-  color: #1fa0ae;
+  color: #00aced;
 }
 .widget-social-icons li {
   float: left;
