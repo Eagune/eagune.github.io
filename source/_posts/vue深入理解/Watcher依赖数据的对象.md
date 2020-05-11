@@ -2,7 +2,7 @@
 title: （三）Watcher依赖数据的对象
 date: 2020-04-26 09:58:52
 categories:
-- vue深入理解
+- Vue深入理解
 index: 2
 tags:
 - vue

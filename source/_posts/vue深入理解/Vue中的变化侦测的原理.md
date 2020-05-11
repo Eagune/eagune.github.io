@@ -2,7 +2,7 @@
 title: （一）Vue中的变化侦测的原理
 date: 2020-04-24 19:16:26
 categories:
-- vue深入理解
+- Vue深入理解
 index: 0
 tags:
 - vue
