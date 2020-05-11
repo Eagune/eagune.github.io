@@ -8,6 +8,7 @@ tags:
 - vue
 - Dep
 - 依赖收集
+photos: /imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Dep%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86.jpg
 ---
 ## 封装Dep
 我们可以将defineReactive中收集依赖，通知依赖的命令式代码封装一下。
