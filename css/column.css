@@ -1,0 +1,13 @@
+.column img {
+  width: 200px;
+}
+.column .title {
+  font-size: 1.5em;
+  text-decoration: none;
+  color: #333;
+  transition: color 0.2s;
+  line-height: 1em;
+}
+.column .title:hover {
+  color: color-theme;
+}
