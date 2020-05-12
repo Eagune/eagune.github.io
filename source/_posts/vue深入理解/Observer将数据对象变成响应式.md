@@ -8,6 +8,7 @@ tags:
 - vue
 - Observer
 - 响应式
+photos: /imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Observer%E5%B0%86%E6%95%B0%E6%8D%AE%E5%AF%B9%E8%B1%A1%E5%8F%98%E6%88%90%E5%93%8D%E5%BA%94%E5%BC%8F.jpg
 ---
 # Observer
 
