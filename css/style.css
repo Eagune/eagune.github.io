@@ -390,8 +390,25 @@ body {
 .widget dt {
   font-weight: bold;
 }
+.column {
+  display: inline-block;
+  width: 50%;
+  margin-bottom: 20px;
+}
+@media screen and (max-width: 479px) {
+  .column {
+    width: 100%;
+  }
+}
 .column img {
   width: 200px;
+  height: 276px;
+}
+@media screen and (max-width: 479px) {
+  .column img {
+    width: 100%;
+    height: 100%;
+  }
 }
 .column .title {
   font-size: 1.5em;
