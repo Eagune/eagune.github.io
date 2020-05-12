@@ -133,7 +133,11 @@
             <a href="/2020/04/24/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86/"><img src="/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86.jpg" class="attachment-thumb-featured size-thumb-featured wp-post-image" alt=""></a>
           </div>
           <div class="entry-summary">
-          <p>变化侦测是Vue中实现响应式的核心。它的作用是当数据变化时，通知视图进行相应的更新。</p>
+          <h2 id="变化侦测"><a href="#变化侦测" class="headerlink" title="变化侦测"></a>变化侦测</h2><p>变化侦测是实现响应式的核心。它的作用是当数据变化时，通知视图进行相应的更新。</p>
+<p>我们的应用程序在运行时内部的状态会不断发生变化，而变化侦测就是检测到系统哪一个部分发生了变化。</p>
+<p>比如在Angular中的脏检测，React中的虚拟DOM，而Vue中实现变化侦测的方式是对数据的劫持（元编程）。</p>
+<p>这种方式的好处是在状态发生变化时，我们的程序就立马知道了，然后我们就可以对绑定了这个状态的所有依赖发送通知，让它们进行更新。</p>
+<p>在javascript中使用Object.defineProperty可以侦测到一个对象的变化，然而它并不能侦测到数组中的变化，因此我们需要分别讨论。</p>
 
         
           <p class="article-more-link">
