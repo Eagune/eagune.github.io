@@ -5,8 +5,8 @@
 # Header Menu
 menu:
   Home: /
-  Archives: archives
   History: history
+  # Archives: archives
   # Categories: categories
   # Tags: tags
   # About: about
