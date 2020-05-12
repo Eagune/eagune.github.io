@@ -6,6 +6,7 @@
 menu:
   Home: /
   Archives: archives
+  History: history
   # Categories: categories
   # Tags: tags
   # About: about
@@ -45,7 +46,7 @@ fancybox: true
 sidebar: right
 widgets:
 - search
-# - recent_posts
+- recent_posts
 - category
 # - tag
 - tagcloud
