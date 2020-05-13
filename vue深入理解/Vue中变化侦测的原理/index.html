@@ -16,13 +16,13 @@
   <meta name="description" content="变化侦测变化侦测是实现响应式的核心。它的作用是当数据变化时，通知视图进行相应的更新。 我们的应用程序在运行时内部的状态会不断发生变化，而变化侦测就是检测到系统哪一个部分发生了变化。 比如在Angular中的脏检测，React中的虚拟DOM，而Vue中实现变化侦测的方式是对数据的劫持（元编程）。 这种方式的好处是在状态发生变化时，我们的程序就立马知道了，然后我们就可以对绑定了这个状态的所有依赖发送通">
 <meta property="og:type" content="article">
 <meta property="og:title" content="（一）Vue中变化侦测的原理">
-<meta property="og:url" content="https://eagune.github.io/2020/04/24/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:url" content="https://eagune.github.io/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="Eagune&#39;s Blog">
 <meta property="og:description" content="变化侦测变化侦测是实现响应式的核心。它的作用是当数据变化时，通知视图进行相应的更新。 我们的应用程序在运行时内部的状态会不断发生变化，而变化侦测就是检测到系统哪一个部分发生了变化。 比如在Angular中的脏检测，React中的虚拟DOM，而Vue中实现变化侦测的方式是对数据的劫持（元编程）。 这种方式的好处是在状态发生变化时，我们的程序就立马知道了，然后我们就可以对绑定了这个状态的所有依赖发送通">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://eagune.github.io/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86.jpg">
 <meta property="article:published_time" content="2020-04-24T19:16:26.000Z">
-<meta property="article:modified_time" content="2020-05-13T00:31:20.799Z">
+<meta property="article:modified_time" content="2020-05-13T00:35:46.428Z">
 <meta property="article:author" content="Eagune">
 <meta property="article:tag" content="vue">
 <meta property="article:tag" content="变化侦测">
@@ -96,6 +96,8 @@
                     
                       <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/history">历史</a> </li>
                     
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/categories/Vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3">vue深入理解</a> </li>
+                    
               </ul>
             </div>
           </nav>
@@ -116,7 +118,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86.jpg" rel="gallery_cka4lzdon000508ut4njk06nc">
+      <a class="article-gallery-img fancybox" href="/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86.jpg" rel="gallery_cka4m52r4000506tw6j4v4lv5">
         <img src="/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86.jpg" itemprop="image">
       </a>
     
@@ -136,7 +138,7 @@
     
     <div class="article-meta">
       
-	<a href="/2020/04/24/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86/" class="article-date">
+	<a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86/" class="article-date">
 	  <time datetime="2020-04-24T19:16:26.000Z" itemprop="datePublished">四月 24, 2020</time>
 	</a>
 
@@ -210,7 +212,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/04/25/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Observer%E5%B0%86%E6%95%B0%E6%8D%AE%E5%AF%B9%E8%B1%A1%E5%8F%98%E6%88%90%E5%93%8D%E5%BA%94%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Observer%E5%B0%86%E6%95%B0%E6%8D%AE%E5%AF%B9%E8%B1%A1%E5%8F%98%E6%88%90%E5%93%8D%E5%BA%94%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
@@ -245,6 +247,8 @@
     <a href="/" class="mobile-nav-link">Home</a>
   
     <a href="/history" class="mobile-nav-link">History</a>
+  
+    <a href="/categories/Vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3" class="mobile-nav-link">Vue深入理解</a>
   
 </nav> -->
     <footer id="footer" class="site-footer">
