@@ -1192,9 +1192,6 @@ a.article-title:hover {
     display: none;
   }
 }
-.archive-article-date:hover {
-  color: #00aced;
-}
 #page-nav {
   font-family: Oswald, "Microsoft Yahei", Arial, Helvetica, sans-serif;
   font-size: 1.2em;
