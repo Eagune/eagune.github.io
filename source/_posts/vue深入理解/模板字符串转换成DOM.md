@@ -55,7 +55,8 @@ function stringToFragment (templateString) {
   return frag
 }
 
-// 较源码省略了的地方：诸如td、option等需要嵌套的标签如果直接使用生成的fragment并不会生效，我们需要手动的拼接加上外层。
+// 较源码省略了的地方：诸如td、option等需要嵌套的标签如果直接使用生成的fragment并不会生效
+// 对于这种情况我们需要手动的拼接加上外层。
 ```
 
 ## transclude

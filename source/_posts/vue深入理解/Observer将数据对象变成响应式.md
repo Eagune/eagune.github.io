@@ -15,8 +15,6 @@ photos: /imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Observer%E5%B0%86%E6%95%B0
 
 ## Observer
 
-<!--more-->
-
 ``` javascript
 function Observer (value) {
   this.value = value
@@ -50,6 +48,8 @@ function observe (value) {
 ```
 
 首先我们在构造Observer的时候会给我们要观测对象添加一个\__ob\__属性，这个属性指向这个Observer。通过检查对象上的这个属性我们可以知道这个对象是否已经被观测过，从而避免重复的观测。
+
+<!--more-->
 
 ``` javascript
 Observer.prototype.observeArray = function (items) {

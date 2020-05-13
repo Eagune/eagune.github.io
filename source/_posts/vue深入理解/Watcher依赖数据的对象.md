@@ -10,155 +10,60 @@ tags:
 - 依赖
 photos: /imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A1.jpg
 ---
-## Watcher
 
-当我们侦测到数据变化的时候，需要对不同的情况进行不同的处理，显然我们不能都放在setter中，因此我们需要抽象出一个能集中处理这种情况的类。
+## 如何利用变化侦测
+
+我们在前面已经做到了将一个对象上所有属性进行侦测，也就是说任何值改变我们都能知道。但是并没有将对应的方法暴露出来，也就是说不管更新在setter或者mutator中触发了，我们并不能再外部去调用方法去更新。
+
+同时虽然取值的时候可以会触发getter，而在setter或者mutator中赋值的时候可以通知改变，但是有个问题是我们并不知道getter中是哪个方法或者对象调用的，因此我们就不知道去通知谁去更新。
+
+为了解决这两个问题，我们需要定义一个依赖对象，这个对象有一个取值get方法，和一个update更新方法。当调用取值方法时可以触发getter，在取值前我们将这个对象挂载到一个全局的对象中，这样在触发getter方法时我们就可以通过全局对象获取到我们的依赖对象并将其收集起来，当触发setter或者mutator的时候我们就调用依赖对象的update方法实现更新操作。
 
 <!--more-->
 
-``` javascript
-class Watcher {
-  constructor(vm, key, cb) {
-    this.vm = vm;
-    this.key = key;
-    this.cb = cb;
-    
-    window.target = this;
-    this.value = this.vm[this.key];
-    window.target = undefined;
-    
-    this.cb.call(this.vm, this.value);
-  }
+## Watcher
 
-  update() {
-    const oldValue = this.value;
-    this.value = this.vm[this.key];
-    this.cb.call(this.vm, this.value, oldValue);
+Watcher就是这样的一个依赖对象，它就像一个中介的角色，连接了最终的数据和回调函数。它可以是一段路径表达式也可以是一个函数expOrFn，我们将其转换成Watcher的get方法，在构造时就调用一次让依赖能被收集起来。
+
+``` javascript
+function Watcher (vm, expOrFn, cb, options) {
+  if (options) {
+    extend(this, options)
+  }
+  this.vm = vm
+  this.expression = expOrFn
+  this.cb = cb
+  if (typeof expOrFn === 'function') {
+    this.getter = expOrFn
+  } else {
+    this.getter = parsePath(expOrFn)
+  }
+  this.value = this.getter.call(this.vm)
+  this.shallow = false
+}
+
+Watcher.prototype.get = function () {
+  window.target = this
+  var value = this.getter.call(this.vm)
+  window.target = null
+  return value
+}
+
+Watcher.prototype.update = function () {
+  var value = this.get()
+  if (
+    value !== this.value ||
+    ((isObject(value) || this.deep) && !this.shallow)
+  ) {
+    var oldValue = this.value
+    this.value = value
+    this.cb.call(this.vm, value, oldValue)
   }
 }
 ```
-由于我们在getter中无法获取到调用它的对象，因此我们通过将Watcher挂载到全局对象的方法，在建立依赖关系的时候我们先将Watcher挂载到全局对象上，然后取值触发getter方法，这样在getter方法中就能将依赖的对象收集起来。
-``` javascript
-function defineReactive(data, key, value) {
-  let deps = [];
-  Object.defineProperty(data, key, {
-    enumerable: true,
-    configurable: true,
-    get: function() {
-      if(window.target) {
-        deps.push(window.target);
-      }
-      return value;
-    },
-    set: function(newVal) {
-      if (value === newVal) {
-        return;
-      }
-      value = newVal;
-      for (let i = 0; i < deps.length; i++) {
-        deps[i].update();
-      }
-    }
-  });
-}
-```
-[查看DEMO](/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A11.html)
 
-## 对于数组类型的触发
+## 工具方法
 
-我们对数组的侦测是通过拦截器进行的，因此他们发出通知的位置也是在拦截器中进行。
-
-由于需要在拦截器中访问到Watcher，因此我们要将依赖对象放到Observer中。我们改造一下Observer，当处理数组的时候，我们给数组添加一个\__ob__属性指向我们这个Observer。
-
-``` javascript
-class Observer {
-  constructor(value) {
-    this.value = value;
-
-    if (!Array.isArray(value)) {
-      this.walk(value);
-    } else {
-      this.deps = [];
-      let instance = this;
-      Object.defineProperty(value, '__ob__', {
-        value: instance,
-        enumerable: false,
-        writable: true,
-        configurable: true,
-      });
-      value.__proto__ = arrayMethods;
-    }
-  }
-
-  walk(object) { ... }
-}
-
-const arrayProto = Array.prototype;
-const arrayMethods = Object.create(arrayProto);
-[
-  'push',
-  'pop',
-  'shift',
-  'unshift',
-  'splice',
-  'sort',
-  'reverse'
-].forEach(function(method) {
-  const original = arrayProto[method];
-  Object.defineProperty(arrayMethods, method, {
-    value: function mutator(...args) {
-      const result = original.apply(this, args);
-      let deps = this.__ob__.deps;
-      for (let i = 0; i < deps.length; i++) {
-        deps[i].update();
-      }
-      return result;
-    },
-    enumerable: false,
-    writable: true,
-    configurable: true,
-  })
-})
-```
-虽然我们触发Watcher是在拦截器中，但是我们收集依赖还是在getter中的，而我们保存在observer中，因此我们还需要对收集依赖的地方进行改造。
-``` javascript
-function defineReactive(data, key, value) {
-  let instance;
-  if (typeof value === 'object') {
-    instance = new Observer(value);
-  }
-  let deps = [];
-  Object.defineProperty(data, key, {
-    enumerable: true,
-    configurable: true,
-    get: function() {
-      if(window.target) {
-        deps.push(window.target);
-        if(instance && instance.deps) {
-          instance.deps.push(window.target);
-        }
-      }
-      return value;
-    },
-    set: function(newVal) {
-      if (value === newVal) {
-        return;
-      }
-      value = newVal;
-      for (let i = 0; i < deps.length; i++) {
-        deps[i].update();
-      }
-      if (typeof value === 'object') {
-        new Observer(value);
-      }
-    }
-  });
-}
-```
-[查看DEMO](/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A12.html)
-
-## parsePath让Watcher支持复杂的层级
-当对于更复杂的层级属性进行监听时（比如我们想侦测到data.a.b.c的时候），上面的方法显然是不够用的。因此我们需要对上面的方法进行升级。
 ``` javascript
 function parsePath(path) {
   const segments = path.split('.') //闭包保存层级数组
@@ -171,24 +76,20 @@ function parsePath(path) {
   }
 }
 
-class Watcher {
-  constructor(vm, expression, cb) {
-    this.vm = vm;
-    this.getter = parsePath(expression);
-    this.cb = cb;
-    
-    window.target = this;
-    this.value = this.getter.call(this.vm);
-    window.target = undefined;
-    
-    this.cb.call(this.vm, this.value);
-  }
+function isObject (obj) {
+  return obj !== null && typeof obj === 'object'
+}
 
-  update() {
-    const oldValue = this.value;
-    this.value = this.vm[this.key];
-    this.cb.call(this.vm, this.value, oldValue);
+function extend (to, from) {
+  var keys = Object.keys(from)
+  var i = keys.length
+  while (i--) {
+    to[keys[i]] = from[keys[i]]
   }
+  return to
 }
 ```
-[查看DEMO](/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A13.html)
+
+1. parsePath： 使我们可以对更复杂的层级属性进行监听时（比如我们想侦测到data.a.b.c的时候）。
+2. isObject： 检测一个值是否为对象。
+3. extend： 可以将一个对象的属性拷贝到另一个对象上。
