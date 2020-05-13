@@ -11,7 +11,7 @@ $('#main-nav > li').each(function () {
 	}
 });
 
-if (!hasCurrent) {
+if (!hasCurrent && window.location.pathname === '/') {
 	$('#main-nav > li:first').addClass('current-menu-item current_page_item');
 }
 
