@@ -98,8 +98,10 @@ input[type="color"],
 	-webkit-border-radius: 0;
 	   -moz-border-radius: 0;
 			border-radius: 0;
-	-webkit-appearance: none;
+	@media mq-mobile{
+		-webkit-appearance: none;
 	}
+}
 textarea {
 	width: 80%;
 	height: auto;
