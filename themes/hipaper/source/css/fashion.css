@@ -55,7 +55,7 @@ h6 {
 
 /* Links */
 a {
-	color: #1fa0ae;
+	color: #00aced;
 	outline: none;
 	-webkit-transition: all 0.14s ease 0s; 
 	   -moz-transition: all 0.14s ease 0s; 
@@ -457,7 +457,7 @@ object {
 #main-navigation li.current-page-parent > a,
 #main-navigation li.current-page-ancestor > a,
 #main-navigation li.current_page_ancestor > a {
-	color: #1fa0ae;
+	color: #00aced;
 	}
 #main-navigation li:hover li a,
 #main-navigation li.sfHover li a {
@@ -606,7 +606,7 @@ object {
 	text-decoration: none;
 	}
 .entry-title a:hover {
-	color: #1fa0ae;
+	color: #00aced;
 	}
 .entry-meta {
 	color: #a6a6a6;
@@ -815,7 +815,7 @@ body.search .page .entry-footer {
 	border: none;
 	}
 .site-content .post-navigation a:hover {
-	color: #1fa0ae;
+	color: #00aced;
 	background: none;
 	border: none;
 	}
@@ -892,7 +892,7 @@ body.search .page .entry-footer {
 	text-decoration: none;
 	}
 .comment-list li.comment .comment-author .fn a:hover {
-	color: #1fa0ae;
+	color: #00aced;
 	}
 .comment-list li.comment .comment-metadata {
 	margin: 0 0 3px;
@@ -990,7 +990,7 @@ body.search .page .entry-footer {
 	color: #333;
 	}
 .widget li a:hover {
-	color: #1fa0ae;
+	color: #00aced;
 	}
 .widget-tab-nav {
 	border-bottom: 2px solid #333;
@@ -1140,7 +1140,7 @@ ul.widget-tab-nav {
 	background: #333;
 	}
 .widget-social-icons li a:hover [class^="fa"]:before {
-	background: #1fa0ae;
+	background: #00aced;
 	}
 
 /* Widget Flickr */
@@ -1229,7 +1229,7 @@ ul.widget-tab-nav {
 	background: none;
 	}
 .site-extra .widget-social-icons li a:hover [class^="ico-"]:before {
-	color: #1fa0ae;
+	color: #00aced;
 	}
 
 /* FOOTER
@@ -1248,7 +1248,7 @@ ul.widget-tab-nav {
 	text-decoration: none;
 	}
 .site-footer a:hover {
-	color: #1fa0ae;
+	color: #00aced;
 	}
 .site-info {
 	float: left;
