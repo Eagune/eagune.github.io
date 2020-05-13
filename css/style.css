@@ -399,6 +399,10 @@ body {
   .column {
     width: 100%;
   }
+  .column.empty footer,
+  .column.empty hr {
+    display: none;
+  }
 }
 .column img {
   width: 200px;
@@ -1164,6 +1168,11 @@ a.article-title:hover {
 .archive-article-title:hover {
   color: #00aced;
 }
+@media screen and (max-width: 479px) {
+  .archive-article-title {
+    border-left: none;
+  }
+}
 .archive-article-footer {
   margin-top: 1em;
 }
@@ -1177,6 +1186,11 @@ a.article-title:hover {
   display: block;
   font-size: 1.1em;
   font-family: 'Helvetica Neue', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', 'Microsoft Yahei', sans-serif;
+}
+@media screen and (max-width: 479px) {
+  .archive-article-date {
+    display: none;
+  }
 }
 .archive-article-date:hover {
   color: #00aced;
