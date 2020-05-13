@@ -2,6 +2,7 @@
   display: inline-block;
   width: 50%;
   margin-bottom: 20px;
+  vertical-align: bottom;
 }
 @media mq-mobile {
   .column {

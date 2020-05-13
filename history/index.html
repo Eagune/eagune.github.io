@@ -25,16 +25,12 @@
   
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
   <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
   <style type="text/css">
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-    
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
 
   <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
   
@@ -314,7 +310,9 @@
             <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A1/"><img src="/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A1.jpg" class="attachment-thumb-featured size-thumb-featured wp-post-image" alt=""></a>
           </div>
           <div class="entry-summary">
-          <h2 id="Watcher"><a href="#Watcher" class="headerlink" title="Watcher"></a>Watcher</h2><p>当我们侦测到数据变化的时候，需要对不同的情况进行不同的处理，显然我们不能都放在setter中，因此我们需要抽象出一个能集中处理这种情况的类。</p>
+          <h2 id="如何利用变化侦测"><a href="#如何利用变化侦测" class="headerlink" title="如何利用变化侦测"></a>如何利用变化侦测</h2><p>我们在前面已经做到了将一个对象上所有属性进行侦测，也就是说任何值改变我们都能知道。但是并没有将对应的方法暴露出来，也就是说不管更新在setter或者mutator中触发了，我们并不能再外部去调用方法去更新。</p>
+<p>同时虽然取值的时候可以会触发getter，而在setter或者mutator中赋值的时候可以通知改变，但是有个问题是我们并不知道getter中是哪个方法或者对象调用的，因此我们就不知道去通知谁去更新。</p>
+<p>为了解决这两个问题，我们需要定义一个依赖对象，这个对象有一个取值get方法，和一个update更新方法。当调用取值方法时可以触发getter，在取值前我们将这个对象挂载到一个全局的对象中，这样在触发getter方法时我们就可以通过全局对象获取到我们的依赖对象并将其收集起来，当触发setter或者mutator的时候我们就调用依赖对象的update方法实现更新操作。</p>
 
         
           <p class="article-more-link">
@@ -374,7 +372,9 @@
           </div>
           <div class="entry-summary">
           <p>通过前面的方法我们已经可以实现变化侦测的功能了，但是只做到了对数据对象中的某一个属性进行侦测，而我们希望对这个数据对象中的所有属性进行侦测，因此我们需要封装一个Observer类。</p>
-<h2 id="Observer"><a href="#Observer" class="headerlink" title="Observer"></a>Observer</h2>
+<h2 id="Observer"><a href="#Observer" class="headerlink" title="Observer"></a>Observer</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Observer</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.value = value</span><br><span class="line">  def(value, <span class="string">'__ob__'</span>, <span class="keyword">this</span>)</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(value)) &#123;</span><br><span class="line">    value.__proto__ = arrayMethods;</span><br><span class="line">    <span class="keyword">this</span>.observeArray(value)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>.walk(value)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observe</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!value || <span class="keyword">typeof</span> value !== <span class="string">'object'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">var</span> ob</span><br><span class="line">  <span class="keyword">if</span> (</span><br><span class="line">    <span class="built_in">Object</span>.prototype.hasOwnProperty.call(value, <span class="string">'__ob__'</span>) &amp;&amp;</span><br><span class="line">    value.__ob__ <span class="keyword">instanceof</span> Observer</span><br><span class="line">  ) &#123;</span><br><span class="line">    ob = value.__ob__</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (</span><br><span class="line">    (<span class="built_in">Array</span>.isArray(value) || isPlainObject(value))</span><br><span class="line">    &amp;&amp; <span class="built_in">Object</span>.isExtensible(value)</span><br><span class="line">  ) &#123;</span><br><span class="line">    ob = <span class="keyword">new</span> Observer(value)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> ob</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先我们在构造Observer的时候会给我们要观测对象添加一个__ob__属性，这个属性指向这个Observer。通过检查对象上的这个属性我们可以知道这个对象是否已经被观测过，从而避免重复的观测。</p>
 
         
           <p class="article-more-link">
