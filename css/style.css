@@ -1017,15 +1017,15 @@ a.article-title:hover {
   background-color: transparent !important;
 }
 .nav .active > a {
-  color: #333;
+  color: #00aced;
 }
 .nav-link {
   font-family: 'Helvetica Neue', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', 'Microsoft Yahei', sans-serif;
-  color: color-link;
+  color: #333;
   padding: 1px !important;
 }
 .nav-link:hover {
-  color: #333;
+  color: #00aced;
 }
 .nav-child {
   margin-left: 1em;
