@@ -252,7 +252,9 @@
             <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Dep%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86/"><img src="/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Dep%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86.jpg" class="attachment-thumb-featured size-thumb-featured wp-post-image" alt=""></a>
           </div>
           <div class="entry-summary">
-          <h2 id="封装Dep"><a href="#封装Dep" class="headerlink" title="封装Dep"></a>封装Dep</h2><p>我们可以将defineReactive中收集依赖，通知依赖的命令式代码封装一下。</p>
+          <p>通过Watcher我们可以定义一个数据和回调函数的关系，当我们的数据变化的时候执行对应的回调函数。</p>
+<p>有的时候一个数据可能会对应很多的回调函数（即程序中很多地方都用到了某个数据），这时候我们就需要将这些依赖关系收集起来，当数据变化的时候统一执行回调函数。</p>
+<h2 id="Dep的定义"><a href="#Dep的定义" class="headerlink" title="Dep的定义"></a>Dep的定义</h2><p>Dep就是这样一个专门帮助我们管理依赖的类，它主要实现了依赖的收集、删除以及向依赖发送通知。同时我们可以将之前挂载到全局对象上的方法改为挂载到Dep上，避免污染全局作用域。</p>
 
         
           <p class="article-more-link">
