@@ -23,7 +23,9 @@ photos: /imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%
 
 ## Watcher
 
-Watcher就是这样的一个依赖对象，它就像一个中介的角色，连接了最终的数据和回调函数。它可以是一段路径表达式也可以是一个函数expOrFn，我们将其转换成Watcher的get方法，在构造时就调用一次让依赖能被收集起来。
+Watcher就是这样的一个依赖对象，它就像一个中介的角色，连接了最终的数据和回调函数。它的数据可以是一段路径表达式也可以是一个函数（expOrFn），我们将其定义成getter方法。
+
+同时我们定义了一个get方法，在取值前先将Watcher对象挂载到全局对象上，调用它让依赖能被收集起来。
 
 ``` javascript
 function Watcher (vm, expOrFn, cb, options) {
@@ -38,13 +40,13 @@ function Watcher (vm, expOrFn, cb, options) {
   } else {
     this.getter = parsePath(expOrFn)
   }
-  this.value = this.getter.call(this.vm)
+  this.value = this.getter.call(this.vm, this.vm)
   this.shallow = false
 }
 
 Watcher.prototype.get = function () {
   window.target = this
-  var value = this.getter.call(this.vm)
+  var value = this.getter.call(this.vm, this.vm)
   window.target = null
   return value
 }
@@ -93,3 +95,5 @@ function extend (to, from) {
 1. parsePath： 使我们可以对更复杂的层级属性进行监听时（比如我们想侦测到data.a.b.c的时候）。
 2. isObject： 检测一个值是否为对象。
 3. extend： 可以将一个对象的属性拷贝到另一个对象上。
+
+[查看DEMO](/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A1.html)
