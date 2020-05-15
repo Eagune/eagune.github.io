@@ -61,6 +61,8 @@ index_generator:
   path: '/history'
   per_page: 5
   order_by: -date
+category_generator: 
+  per_page: 100
 
 # Category & Tag
 default_category: uncategorized

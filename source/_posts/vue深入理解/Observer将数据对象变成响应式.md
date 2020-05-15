@@ -109,4 +109,6 @@ def方法可以给对象添加一个属性，默认是不可枚举的。
 
 isPlainObject则是用来严格检验一个对象是否是一个简单的JavaScript对象。
 
+## Demo
+
 [查看DEMO](/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Observer%E5%B0%86%E6%95%B0%E6%8D%AE%E5%AF%B9%E8%B1%A1%E5%8F%98%E6%88%90%E5%93%8D%E5%BA%94%E5%BC%8F.html)
