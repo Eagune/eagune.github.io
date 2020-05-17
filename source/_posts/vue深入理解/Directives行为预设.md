@@ -20,7 +20,7 @@ Directive我们通常叫它指令，在我的理解里Directives就是它是一�
 
 构造Directive需要一个descriptor对象，descriptor对象是我们在解析模板的时候根据相应的语法生成的一个描述对象，而Directive根据这个对象确定自己的具体类型。
 
-descriptor对象中的def属性是定义的一些操作，通常都包括bind绑定以及update更新。Vue中默认提供了几种指令(text, html, for, if, show, model, on, bind, el, ref, cloak)，同时我们也可以自定义指令。
+descriptor对象中的def属性是定义的一些操作，通常都包括bind绑定以及update更新。Vue中默认提供了几种指令，同时我们也可以自定义指令。
 
 加了下划线的(_bind、_update)是Directive类的抽象绑定方法，而没下划线(bind、update)的是由descriptor复制过来的具体的操作。
 

@@ -40,7 +40,7 @@ function Watcher (vm, expOrFn, cb, options) {
   } else {
     this.getter = parsePath(expOrFn)
   }
-  this.value = this.getter.call(this.vm, this.vm)
+  this.value = this.get()
   this.shallow = false
 }
 
