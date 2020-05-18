@@ -36,6 +36,8 @@ function Directive (descriptor, vm, el) {
 
 Directive.prototype._bind = function () {
   var def = this.descriptor.def
+  var attr = this.descriptor.attr || ('v-' + this.name)
+  this.el.removeAttribute(attr)
   extend(this, def)
   if (this.bind) {
     this.bind()
