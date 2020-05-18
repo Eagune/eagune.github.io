@@ -16,11 +16,13 @@ photos: /imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Observer%E5%B0%86%E6%95%B0
 ## Observer
 
 ``` javascript
+var arrayKeys = Object.getOwnPropertyNames(arrayMethods)
 function Observer (value) {
   this.value = value
   def(value, '__ob__', this)
   if (Array.isArray(value)) {
-    value.__proto__ = arrayMethods;
+    var augment = hasProto ? protoAugment : copyAugment
+    augment(value, arrayMethods, arrayKeys)
     this.observeArray(value)
   } else {
     this.walk(value)
@@ -103,11 +105,30 @@ function def (obj, key, val, enumerable) {
 function isPlainObject (obj) {
   return Object.prototype.toString.call(obj) === '[object Object]'
 }
+
+var hasProto = '__proto__' in {}
+
+function protoAugment (target, src) {
+  target.__proto__ = src
+}
+
+function copyAugment (target, src, keys) {
+  for (var i = 0, l = keys.length; i < l; i++) {
+    var key = keys[i]
+    def(target, key, src[key])
+  }
+}
 ```
 
-def方法可以给对象添加一个属性，默认是不可枚举的。
+1. def方法可以给对象添加一个属性，默认是不可枚举的。
 
-isPlainObject则是用来严格检验一个对象是否是一个简单的JavaScript对象。
+2. isPlainObject则是用来严格检验一个对象是否是一个简单的JavaScript对象。
+
+3. hasProto判断浏览器是否支持\__proto\__。
+
+4. protoAugment设置目标的\__proto\__。
+
+5. copyAugment将目标对象添加对应的属性。
 
 ## Demo
 
