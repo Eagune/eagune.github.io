@@ -99,6 +99,67 @@
         
           <section id="main">
   
+    <article id="post-vue深入理解/Dep依赖收集"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Dep%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86/">（四）Dep依赖收集</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<time datetime="2020-04-26T09:58:52.000Z" itemprop="datePublished">四月 26, 2020</time>
+
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/Vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">Vue深入理解</a>
+ 
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+          <div class="entry-thumbnail">
+            <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Dep%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86/"><img src="/imgs/vue深入理解/Dep依赖收集.jpg" class="attachment-thumb-featured size-thumb-featured wp-post-image" alt=""></a>
+          </div>
+          <div class="entry-summary">
+          <p>通过Watcher我们可以定义一个数据和回调函数的关系，当我们的数据变化的时候执行对应的回调函数。</p>
+<p>有的时候一个数据可能会对应很多的回调函数（即程序中很多地方都用到了某个数据），这时候我们就需要将这些依赖关系收集起来，当数据变化的时候统一执行回调函数。</p>
+<h2 id="Dep的定义"><a href="#Dep的定义" class="headerlink" title="Dep的定义"></a>Dep的定义</h2><p>Dep就是这样一个专门帮助我们管理依赖的类，它主要实现了依赖的收集、删除以及向依赖发送通知。同时我们可以将之前挂载到全局对象上的方法改为挂载到Dep上，避免污染全局作用域。</p>
+
+        
+          <p class="article-more-link">
+            <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Dep%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86/">阅读全文</a>
+          </p>
+        </div>
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/Vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">Vue深入理解</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dep/" rel="tag">Dep</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86/" rel="tag">依赖收集</a></li></ul>
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
     <article id="post-vue深入理解/Watcher依赖数据的对象"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
@@ -127,7 +188,7 @@
       
         
           <div class="entry-thumbnail">
-            <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A1/"><img src="/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A1.jpg" class="attachment-thumb-featured size-thumb-featured wp-post-image" alt=""></a>
+            <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A1/"><img src="/imgs/vue深入理解/Watcher依赖数据的对象.jpg" class="attachment-thumb-featured size-thumb-featured wp-post-image" alt=""></a>
           </div>
           <div class="entry-summary">
           <h2 id="如何利用变化侦测"><a href="#如何利用变化侦测" class="headerlink" title="如何利用变化侦测"></a>如何利用变化侦测</h2><p>我们在前面已经做到了将一个对象上所有属性进行侦测，也就是说任何值改变我们都能知道。但是并没有将对应的方法暴露出来，也就是说不管更新在setter或者mutator中触发了，我们并不能再外部去调用方法去更新。</p>
@@ -188,7 +249,7 @@
       
         
           <div class="entry-thumbnail">
-            <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Observer%E5%B0%86%E6%95%B0%E6%8D%AE%E5%AF%B9%E8%B1%A1%E5%8F%98%E6%88%90%E5%93%8D%E5%BA%94%E5%BC%8F/"><img src="/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Observer%E5%B0%86%E6%95%B0%E6%8D%AE%E5%AF%B9%E8%B1%A1%E5%8F%98%E6%88%90%E5%93%8D%E5%BA%94%E5%BC%8F.jpg" class="attachment-thumb-featured size-thumb-featured wp-post-image" alt=""></a>
+            <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Observer%E5%B0%86%E6%95%B0%E6%8D%AE%E5%AF%B9%E8%B1%A1%E5%8F%98%E6%88%90%E5%93%8D%E5%BA%94%E5%BC%8F/"><img src="/imgs/vue深入理解/Observer将数据对象变成响应式.jpg" class="attachment-thumb-featured size-thumb-featured wp-post-image" alt=""></a>
           </div>
           <div class="entry-summary">
           <p>通过前面的方法我们已经可以实现变化侦测的功能了，但是只做到了对数据对象中的某一个属性进行侦测，而我们希望对这个数据对象中的所有属性进行侦测，因此我们需要封装一个Observer类。</p>
@@ -250,7 +311,7 @@
       
         
           <div class="entry-thumbnail">
-            <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86/"><img src="/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86.jpg" class="attachment-thumb-featured size-thumb-featured wp-post-image" alt=""></a>
+            <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86/"><img src="/imgs/vue深入理解/Vue中变化侦测的原理.jpg" class="attachment-thumb-featured size-thumb-featured wp-post-image" alt=""></a>
           </div>
           <div class="entry-summary">
           <h2 id="变化侦测"><a href="#变化侦测" class="headerlink" title="变化侦测"></a>变化侦测</h2><p>变化侦测是实现响应式的核心。它的作用是当数据变化时，通知视图进行相应的更新。</p>
@@ -352,7 +413,22 @@
 
             
               <div class="widget-entry-thumbnail">
-                <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E6%8C%87%E4%BB%A4%E8%A7%A3%E6%9E%90/" title=""><img width="50" height="50" src="/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E6%8C%87%E4%BB%A4%E8%A7%A3%E6%9E%90.jpg" class="attachment-thumb-small size-thumb-small wp-post-image" alt="preview-16" title=""></a>
+                <a href="/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82/" title=""><img width="50" height="50" src="/imgs/网络协议/网络分层.jpg" class="attachment-thumb-small size-thumb-small wp-post-image" alt="preview-16" title=""></a>
+              </div>
+              <div class="widget-entry-summary">
+            
+
+              <h6 style="margin: 0;"><a href="/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82/">网络分层</a></h6>
+              <span>五月 19, 2020</span>
+            </div>
+
+          </li>
+        
+          <li class="clearfix">
+
+            
+              <div class="widget-entry-thumbnail">
+                <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E6%8C%87%E4%BB%A4%E8%A7%A3%E6%9E%90/" title=""><img width="50" height="50" src="/imgs/vue深入理解/指令解析.jpg" class="attachment-thumb-small size-thumb-small wp-post-image" alt="preview-16" title=""></a>
               </div>
               <div class="widget-entry-summary">
             
@@ -367,7 +443,7 @@
 
             
               <div class="widget-entry-thumbnail">
-                <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Directives%E8%A1%8C%E4%B8%BA%E9%A2%84%E8%AE%BE/" title=""><img width="50" height="50" src="/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Directives%E8%A1%8C%E4%B8%BA%E9%A2%84%E8%AE%BE.jpg" class="attachment-thumb-small size-thumb-small wp-post-image" alt="preview-16" title=""></a>
+                <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Directives%E8%A1%8C%E4%B8%BA%E9%A2%84%E8%AE%BE/" title=""><img width="50" height="50" src="/imgs/vue深入理解/Directives行为预设.jpg" class="attachment-thumb-small size-thumb-small wp-post-image" alt="preview-16" title=""></a>
               </div>
               <div class="widget-entry-summary">
             
@@ -382,7 +458,7 @@
 
             
               <div class="widget-entry-thumbnail">
-                <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%A7%A3%E6%9E%90/" title=""><img width="50" height="50" src="/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%A7%A3%E6%9E%90.jpg" class="attachment-thumb-small size-thumb-small wp-post-image" alt="preview-16" title=""></a>
+                <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%A7%A3%E6%9E%90/" title=""><img width="50" height="50" src="/imgs/vue深入理解/表达式解析.jpg" class="attachment-thumb-small size-thumb-small wp-post-image" alt="preview-16" title=""></a>
               </div>
               <div class="widget-entry-summary">
             
@@ -397,7 +473,7 @@
 
             
               <div class="widget-entry-thumbnail">
-                <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E6%88%90DOM/" title=""><img width="50" height="50" src="/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E6%88%90DOM.jpg" class="attachment-thumb-small size-thumb-small wp-post-image" alt="preview-16" title=""></a>
+                <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E6%88%90DOM/" title=""><img width="50" height="50" src="/imgs/vue深入理解/模板字符串转换成DOM.jpg" class="attachment-thumb-small size-thumb-small wp-post-image" alt="preview-16" title=""></a>
               </div>
               <div class="widget-entry-summary">
             
@@ -412,28 +488,13 @@
 
             
               <div class="widget-entry-thumbnail">
-                <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Dep%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86/" title=""><img width="50" height="50" src="/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Dep%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86.jpg" class="attachment-thumb-small size-thumb-small wp-post-image" alt="preview-16" title=""></a>
+                <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Dep%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86/" title=""><img width="50" height="50" src="/imgs/vue深入理解/Dep依赖收集.jpg" class="attachment-thumb-small size-thumb-small wp-post-image" alt="preview-16" title=""></a>
               </div>
               <div class="widget-entry-summary">
             
 
               <h6 style="margin: 0;"><a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Dep%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86/">（四）Dep依赖收集</a></h6>
               <span>四月 26, 2020</span>
-            </div>
-
-          </li>
-        
-          <li class="clearfix">
-
-            
-              <div class="widget-entry-thumbnail">
-                <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A1/" title=""><img width="50" height="50" src="/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A1.jpg" class="attachment-thumb-small size-thumb-small wp-post-image" alt="preview-16" title=""></a>
-              </div>
-              <div class="widget-entry-summary">
-            
-
-              <h6 style="margin: 0;"><a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A1/">（三）Watcher依赖数据的对象</a></h6>
-              <span>四月 25, 2020</span>
             </div>
 
           </li>
@@ -447,7 +508,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">Vue深入理解</a><span class="category-list-count">8</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">Vue深入理解</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">网络协议</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -457,7 +518,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Dep/" style="font-size: 10px;">Dep</a> <a href="/tags/Directives/" style="font-size: 10px;">Directives</a> <a href="/tags/Fragment/" style="font-size: 10px;">Fragment</a> <a href="/tags/Object-defineProperty/" style="font-size: 10px;">Object.defineProperty</a> <a href="/tags/Observer/" style="font-size: 10px;">Observer</a> <a href="/tags/Watcher/" style="font-size: 10px;">Watcher</a> <a href="/tags/defineReactive/" style="font-size: 10px;">defineReactive</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/%E4%BE%9D%E8%B5%96/" style="font-size: 10px;">依赖</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86/" style="font-size: 10px;">依赖收集</a> <a href="/tags/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/" style="font-size: 10px;">变化侦测</a> <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F/" style="font-size: 10px;">响应式</a> <a href="/tags/%E6%8C%87%E4%BB%A4/" style="font-size: 15px;">指令</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E8%A1%8C%E4%B8%BA%E9%A2%84%E8%AE%BE/" style="font-size: 10px;">行为预设</a> <a href="/tags/%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">表达式</a> <a href="/tags/%E8%A7%A3%E6%9E%90/" style="font-size: 15px;">解析</a> <a href="/tags/%E8%BD%AC%E6%8D%A2/" style="font-size: 10px;">转换</a>
+      <a href="/tags/Dep/" style="font-size: 10px;">Dep</a> <a href="/tags/Directives/" style="font-size: 10px;">Directives</a> <a href="/tags/Fragment/" style="font-size: 10px;">Fragment</a> <a href="/tags/OSI%E6%A8%A1%E5%9E%8B/" style="font-size: 10px;">OSI模型</a> <a href="/tags/Object-defineProperty/" style="font-size: 10px;">Object.defineProperty</a> <a href="/tags/Observer/" style="font-size: 10px;">Observer</a> <a href="/tags/TCP-IP%E6%A8%A1%E5%9E%8B/" style="font-size: 10px;">TCP/IP模型</a> <a href="/tags/Watcher/" style="font-size: 10px;">Watcher</a> <a href="/tags/defineReactive/" style="font-size: 10px;">defineReactive</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/%E4%BE%9D%E8%B5%96/" style="font-size: 10px;">依赖</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86/" style="font-size: 10px;">依赖收集</a> <a href="/tags/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/" style="font-size: 10px;">变化侦测</a> <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F/" style="font-size: 10px;">响应式</a> <a href="/tags/%E6%8C%87%E4%BB%A4/" style="font-size: 15px;">指令</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">模板</a> <a href="/tags/%E8%A1%8C%E4%B8%BA%E9%A2%84%E8%AE%BE/" style="font-size: 10px;">行为预设</a> <a href="/tags/%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">表达式</a> <a href="/tags/%E8%A7%A3%E6%9E%90/" style="font-size: 15px;">解析</a> <a href="/tags/%E8%BD%AC%E6%8D%A2/" style="font-size: 10px;">转换</a>
     </div>
   </div>
 
