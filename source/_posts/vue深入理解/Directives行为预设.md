@@ -9,7 +9,7 @@ tags:
 - Directives
 - 指令
 - 行为预设
-photos: /imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Directives%E8%A1%8C%E4%B8%BA%E9%A2%84%E8%AE%BE.jpg
+photos: /imgs/vue深入理解/Directives行为预设.jpg
 ---
 
 Directive我们通常叫它指令，在我的理解里Directives就是它是一组行为预设。前面我们不是有讲到Watcher嘛，Watcher作为中介者连接了数据和回调函数，但是我们的回调函数还是都是需要自己写一些操作的，实际上我们开发过程中有很多的重复性的操作，我们就将这一部分操作提取出来这就是Directive。现在这样是不是觉得指令这个名称很贴切呢，我们定义了指令告诉程序要做什么，而不是具体的谁要去做什么，这是一种抽象。
@@ -94,4 +94,4 @@ function compileTextNode (node) {
 }
 ```
 
-[查看DEMO](/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Directives%E8%A1%8C%E4%B8%BA%E9%A2%84%E8%AE%BE.html)
+[查看DEMO](/demo/vue深入理解/Directives行为预设.html)

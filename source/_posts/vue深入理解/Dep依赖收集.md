@@ -8,7 +8,7 @@ tags:
 - vue
 - Dep
 - 依赖收集
-photos: /imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Dep%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86.jpg
+photos: /imgs/vue深入理解/Dep依赖收集.jpg
 ---
 
 通过Watcher我们可以定义一个数据和回调函数的关系，当我们的数据变化的时候执行对应的回调函数。
@@ -132,4 +132,4 @@ function defineReactive(data, key, value) {
 
 ## Demo
 
-[查看DEMO](/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Dep%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86.html)
+[查看DEMO](/demo/vue深入理解/Dep依赖收集.html)

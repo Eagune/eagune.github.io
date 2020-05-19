@@ -9,7 +9,7 @@ tags:
 - 模板
 - 转换
 - Fragment
-photos: /imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E6%88%90DOM.jpg
+photos: /imgs/vue深入理解/模板字符串转换成DOM.jpg
 ---
 ## 模板
 
@@ -97,4 +97,4 @@ function transcludeTemplate (el, template) {
 
 ## Demo
 
-[查看DEMO](/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E6%88%90DOM.html)
+[查看DEMO](/demo/vue深入理解/模板字符串转换成DOM.html)

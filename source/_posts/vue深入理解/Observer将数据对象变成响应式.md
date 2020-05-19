@@ -8,7 +8,7 @@ tags:
 - vue
 - Observer
 - 响应式
-photos: /imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Observer%E5%B0%86%E6%95%B0%E6%8D%AE%E5%AF%B9%E8%B1%A1%E5%8F%98%E6%88%90%E5%93%8D%E5%BA%94%E5%BC%8F.jpg
+photos: /imgs/vue深入理解/Observer将数据对象变成响应式.jpg
 ---
 
 通过前面的方法我们已经可以实现变化侦测的功能了，但是只做到了对数据对象中的某一个属性进行侦测，而我们希望对这个数据对象中的所有属性进行侦测，因此我们需要封装一个Observer类。
@@ -132,4 +132,4 @@ function copyAugment (target, src, keys) {
 
 ## Demo
 
-[查看DEMO](/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Observer%E5%B0%86%E6%95%B0%E6%8D%AE%E5%AF%B9%E8%B1%A1%E5%8F%98%E6%88%90%E5%93%8D%E5%BA%94%E5%BC%8F.html)
+[查看DEMO](/demo/vue深入理解/Observer将数据对象变成响应式.html)

@@ -8,7 +8,7 @@ tags:
 - vue
 - Watcher
 - 依赖
-photos: /imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A1.jpg
+photos: /imgs/vue深入理解/Watcher依赖数据的对象.jpg
 ---
 
 ## 如何利用变化侦测
@@ -98,4 +98,4 @@ function extend (to, from) {
 
 ## Demo
 
-[查看DEMO](/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Watcher%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%B9%E8%B1%A1.html)
+[查看DEMO](/demo/vue深入理解/Watcher依赖数据的对象.html)

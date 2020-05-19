@@ -9,7 +9,7 @@ tags:
 - 变化侦测
 - defineReactive
 - Object.defineProperty
-photos: /imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%86.jpg
+photos: /imgs/vue深入理解/Vue中变化侦测的原理.jpg
 ---
 
 ## 变化侦测
@@ -45,7 +45,7 @@ function defineReactive(obj, property, value) {
   })
 }
 ```
-[查看DEMO](/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%861.html)
+[查看DEMO](/demo/vue深入理解/Vue中变化侦测的原理1.html)
 
 ## Array的变化侦测
 
@@ -81,4 +81,4 @@ const arrayMethods = Object.create(arrayProto);
 
 在使用的时候我们只希望我们对我们需要侦测数组进行劫持，所以我们不能覆盖Array.prototype，因此我们可以通过改变数据的\__proto\__指向我们的原型方法来实现。
 
-[查看DEMO](/demo/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Vue%E4%B8%AD%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B%E7%9A%84%E5%8E%9F%E7%90%862.html)
+[查看DEMO](/demo/vue深入理解/Vue中变化侦测的原理2.html)
