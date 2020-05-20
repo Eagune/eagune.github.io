@@ -23,6 +23,8 @@ URI是URL和URN的超集
 
 ## URI的组成
 
-URI的组成：**schema**， **user information**， **host**， **port**， **path**， **query**， **fragment**
+URI的组成：**schema**，**user information**，**host**，**port**，**path**，**query**，**fragment**
 
 ![URI的组成](/imgs/网络协议/URI/URI的组成.jpg)
+
+## URI的格式
