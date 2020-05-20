@@ -608,19 +608,6 @@ a.article-title:hover {
   border-left: 0;
   background: #f3f5f9;
 }
-.article-entry blockquote:before {
-  float: left;
-  font-family: "FontAwesome";
-  content: "\f10d";
-  margin-left: -0.8em;
-}
-.article-entry blockquote:after {
-  float: right;
-  font-family: "FontAwesome";
-  content: "\f10e";
-  margin-right: -0.8em;
-  margin-top: -1.5em;
-}
 .article-entry blockquote p {
   font-size: 14px;
 }
