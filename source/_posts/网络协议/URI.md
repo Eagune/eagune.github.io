@@ -28,3 +28,27 @@ URI的组成：**schema**，**user information**，**host**，**port**，**path*
 ![URI的组成](/imgs/网络协议/URI/URI的组成.jpg)
 
 ## URI的格式
+
+> `URI` = `schema` ":" `hier-part` ["?" `query`] ["#" `fragment`]
+
+`schema` = ALPHA *(ALPHA/DIGIT/"+"/"-"/".")
+
+`hier-part` = "//" `authority` `path`
+
+`authority` = [userinfo "@"]`host`[":" `port`]
+
+`host` = IP-literal/IPv4address/reg-name
+
+`port` = *DIGIT
+
+`path` = path-abempty/path-absolute/path-noscheme/path-rootless/path-empty
+
+`query` = *(pchar/"/"/"?")
+
+`fragment` = *(pchar/"/"/"?")
+
+## URI的编码
+
+为什么要进行URI编码：可能存在做分隔符的保留字符，可能出现会产生歧义的数据编码。
+
+编码方式：百分号编码方式
