@@ -3,32 +3,31 @@
 <head>
   <meta charset="utf-8">
   
-  <title>【HTTP协议】请求行 | Eagune&#39;s Blog</title>
+  <title>（九）终端指令 | Eagune&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="网络协议HTTP协议请求行" />
+  <meta name="keywords" content="vue终端指令" />
   
   
   
     <meta name="baidu-site-verification" content="ECCDdNqnWk" />
   
   
-  <meta name="description" content="请求行request-line request-line &#x3D; method SP request-target SP HTTP-version CRLF">
+  <meta name="description" content="终端指令有些指令我们希望在编译它之前先不要编译它的子节点，这种指令我们定义为终端指令即Terminal Directives。比如vIF、vFor这种都是终端指令。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【HTTP协议】请求行">
-<meta property="og:url" content="https://eagune.github.io/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E8%AF%B7%E6%B1%82%E8%A1%8C/index.html">
+<meta property="og:title" content="（九）终端指令">
+<meta property="og:url" content="https://eagune.github.io/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E7%BB%88%E7%AB%AF%E6%8C%87%E4%BB%A4/index.html">
 <meta property="og:site_name" content="Eagune&#39;s Blog">
-<meta property="og:description" content="请求行request-line request-line &#x3D; method SP request-target SP HTTP-version CRLF">
+<meta property="og:description" content="终端指令有些指令我们希望在编译它之前先不要编译它的子节点，这种指令我们定义为终端指令即Terminal Directives。比如vIF、vFor这种都是终端指令。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://eagune.github.io/imgs/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E8%AF%B7%E6%B1%82%E8%A1%8C.jpg">
-<meta property="article:published_time" content="2020-05-20T22:21:41.000Z">
+<meta property="og:image" content="https://eagune.github.io/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E7%BB%88%E7%AB%AF%E6%8C%87%E4%BB%A4.jpg">
+<meta property="article:published_time" content="2020-05-22T00:21:26.000Z">
 <meta property="article:modified_time" content="2020-05-22T02:16:26.857Z">
 <meta property="article:author" content="Eagune">
-<meta property="article:tag" content="网络协议">
-<meta property="article:tag" content="HTTP协议">
-<meta property="article:tag" content="请求行">
+<meta property="article:tag" content="vue">
+<meta property="article:tag" content="终端指令">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://eagune.github.io/imgs/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E8%AF%B7%E6%B1%82%E8%A1%8C.jpg">
+<meta name="twitter:image" content="https://eagune.github.io/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E7%BB%88%E7%AB%AF%E6%8C%87%E4%BB%A4.jpg">
   
     <link rel="alternate" href="/atom.xml" title="Eagune&#39;s Blog" type="application/atom+xml">
   
@@ -110,14 +109,14 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-网络协议/请求行" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-vue深入理解/终端指令" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/imgs/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E8%AF%B7%E6%B1%82%E8%A1%8C.jpg" rel="gallery_ckahkp7zy000ozqu0fwyz763e">
-        <img src="/imgs/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E8%AF%B7%E6%B1%82%E8%A1%8C.jpg" itemprop="image">
+      <a class="article-gallery-img fancybox" href="/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E7%BB%88%E7%AB%AF%E6%8C%87%E4%BB%A4.jpg" rel="gallery_ckahkp7zt000bzqu05et70so1">
+        <img src="/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E7%BB%88%E7%AB%AF%E6%8C%87%E4%BB%A4.jpg" itemprop="image">
       </a>
     
   </div>
@@ -128,7 +127,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      【HTTP协议】请求行
+      （九）终端指令
     </h1>
   
 
@@ -136,108 +135,33 @@
     
     <div class="article-meta">
       
-	<time datetime="2020-05-20T22:21:41.000Z" itemprop="datePublished">五月 20, 2020</time>
+	<time datetime="2020-05-22T00:21:26.000Z" itemprop="datePublished">五月 22, 2020</time>
 
       
 	<span class="ico-folder"></span>
-    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">网络协议</a>
+    <a class="article-category-link" href="/categories/Vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">Vue深入理解</a>
  
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="请求行request-line"><a href="#请求行request-line" class="headerlink" title="请求行request-line"></a>请求行request-line</h2><blockquote>
-<p><code>request-line</code> = <code>method</code> SP <code>request-target</code> SP <code>HTTP-version</code> CRLF</p>
-</blockquote>
+        <h2 id="终端指令"><a href="#终端指令" class="headerlink" title="终端指令"></a>终端指令</h2><p>有些指令我们希望在编译它之前先不要编译它的子节点，这种指令我们定义为终端指令即Terminal Directives。比如vIF、vFor这种都是终端指令。</p>
 <a id="more"></a>
 
-<h2 id="method"><a href="#method" class="headerlink" title="method"></a>method</h2><h3 id="常见方法"><a href="#常见方法" class="headerlink" title="常见方法"></a>常见方法</h3><ul>
-<li>GET：主要获取信息的方法，幂等方法</li>
-</ul>
-<hr>
-<ul>
-<li>HEAD：用于获取HEAD元数据，幂等方法</li>
-</ul>
-<hr>
-<ul>
-<li>POST：用于提交FORM表单，新增资源等</li>
-</ul>
-<hr>
-<ul>
-<li>PUT：更新资源，带条件时是幂等方法</li>
-</ul>
-<hr>
-<ul>
-<li>DELETE：删除资源，幂等方法</li>
-</ul>
-<hr>
-<ul>
-<li>CONNECT：建立tunnel隧道</li>
-</ul>
-<hr>
-<ul>
-<li>OPTIONS：显示服务器对访问资源的支持方法，幂等方法</li>
-</ul>
-<hr>
-<ul>
-<li>TRACE：回显服务器收到的请求，有安全风险</li>
-</ul>
-<hr>
-<h3 id="WEBDAV方法"><a href="#WEBDAV方法" class="headerlink" title="WEBDAV方法"></a>WEBDAV方法</h3><ul>
-<li>PROPFIND：</li>
-</ul>
-<hr>
-<ul>
-<li>PROPPATCH：</li>
-</ul>
-<hr>
-<ul>
-<li>MKCOL：</li>
-</ul>
-<hr>
-<ul>
-<li>COPY:</li>
-</ul>
-<hr>
-<ul>
-<li>MOVE:</li>
-</ul>
-<hr>
-<ul>
-<li>LOCK:</li>
-</ul>
-<hr>
-<ul>
-<li>UNLOCK：</li>
-</ul>
-<hr>
-<h2 id="request-target"><a href="#request-target" class="headerlink" title="request-target"></a>request-target</h2><ul>
-<li>origin-form</li>
-</ul>
-<hr>
-<ul>
-<li>absolute-form</li>
-</ul>
-<hr>
-<ul>
-<li>authority-form</li>
-</ul>
-<hr>
-<ul>
-<li>asterisk-form</li>
-</ul>
-<hr>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compileElement</span> (<span class="params">el</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> hasAttrs = el.hasAttributes()</span><br><span class="line">  <span class="keyword">var</span> attrs = hasAttrs &amp;&amp; toArray(el.attributes)</span><br><span class="line">  <span class="keyword">if</span> (!checkTerminalDirectives(el, attrs)) &#123;</span><br><span class="line">    compileDirectives(el, attrs)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>我们在<code>compileDirectives</code>之前加入了<code>checkTerminalDirectives</code>功能，<code>checkTerminalDirectives</code>首先遍历所有的指令然后解析，如果指令定义中的terminal属性为true，则该指令是一个终端指令，对于后续的指令解析不再进行。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkTerminalDirectives</span> (<span class="params">el, attrs</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// skip v-else block, but only if following v-if</span></span><br><span class="line">  <span class="keyword">if</span> (el.hasAttribute(<span class="string">'v-else'</span>)) &#123;</span><br><span class="line">    <span class="keyword">var</span> prev = el.previousElementSibling</span><br><span class="line">    <span class="keyword">if</span> (prev &amp;&amp; prev.hasAttribute(<span class="string">'v-if'</span>)) &#123;</span><br><span class="line">      <span class="keyword">return</span> skip</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">var</span> attr, name, value, matched, arg, def</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, j = attrs.length; i &lt; j; i++) &#123;</span><br><span class="line">    attr = attrs[i]</span><br><span class="line">    name = attr.name</span><br><span class="line">    <span class="keyword">if</span> ((matched = name.match(dirAttrRE))) &#123;</span><br><span class="line">      def = publicDirectives[matched[<span class="number">1</span>]]</span><br><span class="line">      <span class="keyword">if</span> (def &amp;&amp; def.terminal) &#123;</span><br><span class="line">        isTerminal = <span class="literal">true</span></span><br><span class="line">        <span class="keyword">var</span> descriptor = &#123;</span><br><span class="line">          name: matched[<span class="number">1</span>],</span><br><span class="line">          raw: attr.value,</span><br><span class="line">          attr: attr.name,</span><br><span class="line">          arg: matched[<span class="number">2</span>],</span><br><span class="line">          expression: attr.value,</span><br><span class="line">          def: def</span><br><span class="line">        &#125;</span><br><span class="line">        vm._bindDir(descriptor, el)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="entry-meta entry-footer">
       
 	<span class="ico-folder"></span>
-    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">网络协议</a>
+    <a class="article-category-link" href="/categories/Vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">Vue深入理解</a>
 
       
   <span class="ico-tags"></span>
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP%E5%8D%8F%E8%AE%AE/" rel="tag">HTTP协议</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%B7%E6%B1%82%E8%A1%8C/" rel="tag">请求行</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%88%E7%AB%AF%E6%8C%87%E4%BB%A4/" rel="tag">终端指令</a></li></ul>
 
       
         
@@ -272,19 +196,10 @@
     
 <nav id="article-nav">
   
-    <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E7%BB%88%E7%AB%AF%E6%8C%87%E4%BB%A4/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">
-        
-          （九）终端指令
-        
-      </div>
-    </a>
   
-  
-    <a href="/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/URI/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E8%AF%B7%E6%B1%82%E8%A1%8C/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">【HTTP协议】URI</div>
+      <div class="article-nav-title">【HTTP协议】请求行</div>
     </a>
   
 </nav>
@@ -298,7 +213,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
     
-      <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#请求行request-line"><span class="nav-number">1.</span> <span class="nav-text">请求行request-line</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#method"><span class="nav-number">2.</span> <span class="nav-text">method</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常见方法"><span class="nav-number">2.1.</span> <span class="nav-text">常见方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WEBDAV方法"><span class="nav-number">2.2.</span> <span class="nav-text">WEBDAV方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#request-target"><span class="nav-number">3.</span> <span class="nav-text">request-target</span></a></li></ol>
+      <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#终端指令"><span class="nav-number">1.</span> <span class="nav-text">终端指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-number">2.</span> <span class="nav-text">实现</span></a></li></ol>
     
     </div>
   </aside>
