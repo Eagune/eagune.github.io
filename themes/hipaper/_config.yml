@@ -5,7 +5,7 @@
 # Header Menu
 menu:
   Home: /
-  全部文章: history
+  全部文章: /history
   Vue深入理解: /categories/Vue深入理解
   网络协议: /categories/网络协议
   # Archives: archives
