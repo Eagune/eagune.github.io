@@ -17,16 +17,23 @@ By Eagune {.text-intro}
 
 # mvc和mvvm的区别 {.text-landing.text-shadow}
 
-!![MVC](/MVC.webp  .alignleft.size-50) {.tobuild.fadeIn.animated.slow}
+:::column {.build.fadeIn.animated.slow}
+![](/MVC.webp)
+
+---
+![](/MVC.webp)
+:::
 
 <slide class="bg-black-blue aligncenter" image="https://source.unsplash.com/C1HhAQrbykQ/ .dark">
 
 # 变化侦测 {.text-landing.text-shadow}
 
-<slide>
+<slide :class="size-50">
 
-# Javascript中如何检测一个对象的变化 {.text-landing.text-shadow.slide-top.content-center}
+## **Javascript中如何检测一个对象的变化?**
+
+` `
 
 1. Object.defineProperty
 2. Proxy
-{.wrap.size-50.build.moveIn}
+{.text-intro.build.moveIn}
