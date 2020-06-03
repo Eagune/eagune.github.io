@@ -19,17 +19,17 @@ By Eagune {.text-intro}
 # mvc与mvvm {.text-landing.text-shadow}
 
 :::column {.build.fadeIn.animated.slow}
-![](/从0到1实现Vue/MVC.jpg)
+![](/ppt/dist/从0到1实现Vue/MVC.jpg)
 
 ---
-![](/从0到1实现Vue/ember_archi.jpg)
+![](/ppt/dist/从0到1实现Vue/ember_archi.jpg)
 :::
 
 <slide class="bg-black-blue aligncenter" image="https://source.unsplash.com/C1HhAQrbykQ/ .dark">
 
 # mvc与mvvm {.text-landing.text-shadow}
 
-!![](/从0到1实现Vue/mvvm.png .size-50)
+!![](/ppt/dist/从0到1实现Vue/mvvm.png .size-50)
 
 <slide class="bg-black-blue aligncenter" image="https://source.unsplash.com/C1HhAQrbykQ/ .dark">
 
@@ -139,4 +139,4 @@ const arrayMethods = Object.create(arrayProto);
 
 ## Observer、Dep、Watcher关系
 
-!![](/从0到1实现Vue/关系图.jpg .size-80)
+!![](/ppt/dist/从0到1实现Vue/关系图.jpg .size-80)

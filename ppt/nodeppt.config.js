@@ -1,3 +1,3 @@
 module.exports = {
-  baseUrl: '/ppt/dist/',
+  baseUrl: '/ppt/dist',
 };
