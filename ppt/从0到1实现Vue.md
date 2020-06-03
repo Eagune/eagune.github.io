@@ -140,3 +140,8 @@ const arrayMethods = Object.create(arrayProto);
 ## Observer、Dep、Watcher关系
 
 !![](/ppt/dist/从0到1实现Vue/关系图.jpg .size-80)
+
+<slide class="bg-black-blue aligncenter" image="https://source.unsplash.com/C1HhAQrbykQ/ .dark">
+
+## 谢谢 !!
+## Thanks !!
