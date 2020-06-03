@@ -3,6 +3,7 @@ speaker: Eagune
 prismTheme: solarizedlight
 
 
+
 <slide class="bg-black-blue aligncenter" image="https://source.unsplash.com/C1HhAQrbykQ/ .dark">
 
 # 从0到1实现Vue {.text-landing.text-shadow}
@@ -15,14 +16,20 @@ By Eagune {.text-intro}
 
 <slide class="bg-black-blue aligncenter" image="https://source.unsplash.com/C1HhAQrbykQ/ .dark">
 
-# mvc和mvvm的区别 {.text-landing.text-shadow}
+# mvc与mvvm {.text-landing.text-shadow}
 
 :::column {.build.fadeIn.animated.slow}
 ![](/MVC.webp)
 
 ---
-![](/MVC.webp)
+![](/ember_archi.jpg)
 :::
+
+<slide class="bg-black-blue aligncenter" image="https://source.unsplash.com/C1HhAQrbykQ/ .dark">
+
+# mvc与mvvm {.text-landing.text-shadow}
+
+!![](/mvvm.png .size-50)
 
 <slide class="bg-black-blue aligncenter" image="https://source.unsplash.com/C1HhAQrbykQ/ .dark">
 
@@ -81,6 +88,8 @@ const arrayMethods = Object.create(arrayProto);
 })
 ```
 
+[Demo](https://eagune.github.io/demo/vue深入理解/Vue中变化侦测的原理2.html){.button}
+
 <slide :class="size-50">
 
 ## Observer
@@ -93,7 +102,8 @@ const arrayMethods = Object.create(arrayProto);
 
 ` `
 
-[Demo](https://eagune.github.io/demo/vue深入理解/Vue中变化侦测的原理1.html){.button.tobuild}
+[代码](https://eagune.github.io/vue深入理解/Observer将数据对象变成响应式){.button.tobuild}
+[Demo](https://eagune.github.io/demo/vue深入理解/Observer将数据对象变成响应式.html){.button.tobuild}
 
 <slide :class="size-50">
 
@@ -107,4 +117,26 @@ const arrayMethods = Object.create(arrayProto);
 
 ` `
 
-[Demo](https://eagune.github.io/demo/vue深入理解/Vue中变化侦测的原理1.html){.button.tobuild}
+[代码](https://eagune.github.io/vue深入理解/Watcher依赖数据的对象){.button.tobuild}
+[Demo](https://eagune.github.io/demo/vue深入理解/Watcher依赖数据的对象.html){.button.tobuild}
+
+<slide :class="size-50">
+
+## Dep
+
+` `
+
+1. 一个数据可能会对应很多依赖
+2. 挂载到全局对象的变量污染
+{.text-intro.tobuild.moveIn}
+
+` `
+
+[代码](https://eagune.github.io/vue深入理解/Dep依赖收集){.button.tobuild}
+[Demo](https://eagune.github.io/demo/vue深入理解/Dep依赖收集.html){.button.tobuild}
+
+<slide class="bg-black-blue aligncenter" image="https://source.unsplash.com/C1HhAQrbykQ/ .dark">
+
+## Observer、Dep、Watcher关系
+
+!![](/关系图.jpg .size-80)
