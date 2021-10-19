@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>网络分层 | Eagune&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="网络协议OSI模型TCP/IP模型" />
+  
+  
+  
+    <meta name="baidu-site-verification" content="ECCDdNqnWk" />
+  
+  
+  <meta name="description" content="OSI模型OSI模型(Open System Interconnection Reference Model)，它是一个概念模型并没有真正的实现过，是用来指导我们理解网络协议的。 OSI模型把网络通信的工作分为7层,分别是物理层，数据链路层，网络层，传输层，会话层，表示层，应用层。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络分层">
+<meta property="og:url" content="https://eagune.github.io/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82/index.html">
+<meta property="og:site_name" content="Eagune&#39;s Blog">
+<meta property="og:description" content="OSI模型OSI模型(Open System Interconnection Reference Model)，它是一个概念模型并没有真正的实现过，是用来指导我们理解网络协议的。 OSI模型把网络通信的工作分为7层,分别是物理层，数据链路层，网络层，传输层，会话层，表示层，应用层。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://eagune.github.io/imgs/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82.jpg">
+<meta property="article:published_time" content="2020-05-19T23:34:11.000Z">
+<meta property="article:modified_time" content="2021-10-19T09:58:23.679Z">
+<meta property="article:author" content="Eagune">
+<meta property="article:tag" content="网络协议">
+<meta property="article:tag" content="OSI模型">
+<meta property="article:tag" content="TCP&#x2F;IP模型">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://eagune.github.io/imgs/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Eagune&#39;s Blog" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  <link rel="apple-touch-icon-precomposed" href="css/images/icon.jpg"/>
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+  <link rel="stylesheet" href="/css/fashion.css" >
+  <link rel="stylesheet" href="/css/glyphs.css" >
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+
+
+<header id="allheader" class="site-header" role="banner" 
+   >
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="Eagune&#39;s Blog" rel="home"> Eagune&#39;s Blog </a>
+            
+          </h1>
+          
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows"  style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/">首页</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/history">全部文章</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/categories/Vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3">vue深入理解</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE">网络协议</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-网络协议/网络分层" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/imgs/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82.jpg" rel="gallery_ckuxwyv6w000nb1na4xxvcff9">
+        <img src="/imgs/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82.jpg" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      网络分层
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<time datetime="2020-05-19T23:34:11.000Z" itemprop="datePublished">五月 19, 2020</time>
+
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">网络协议</a>
+ 
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="OSI模型"><a href="#OSI模型" class="headerlink" title="OSI模型"></a>OSI模型</h2><p>OSI模型(Open System Interconnection Reference Model)，它是一个概念模型并没有真正的实现过，是用来指导我们理解网络协议的。</p>
+<p>OSI模型把网络通信的工作分为7层,分别是<strong>物理层</strong>，<strong>数据链路层</strong>，<strong>网络层</strong>，<strong>传输层</strong>，<strong>会话层</strong>，<strong>表示层</strong>，<strong>应用层</strong>。</p>
+<a id="more"></a>
+
+<p><img src="/imgs/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82/OSI%E6%A8%A1%E5%9E%8B.jpg" alt="OSI模型"></p>
+<p><code>1.物理层</code>：各种物理设备的标准（比如布线、光纤、网卡），主要作用是传输比特流（1、0的二进制数据）</p>
+<hr>
+<p><code>2.数据链路层</code>：定义了如何让格式化数据以帧为单位进行传输，以及如何让控制对物理介质的访问。</p>
+<hr>
+<p><code>3.网络层</code>：在计算机网络中进行通信的两个计算机之间可能会经过很多个数据链路，也可能还要经过很多通信子网，网络层的任务就是选择合适的网间路由和交换结点， 确保数据及时传送。</p>
+<hr>
+<p><code>4.传输层</code>：传输层提供端对端的通信管理。主要是将从下层接收的数据进行分段和传输，到达目的地址后再进行重组。</p>
+<hr>
+<p><code>5.会话层</code>：会话层不参与具体的传输，它提供包括访问验证和会话管理在内的建立和维护应用之间通信的机制。</p>
+<hr>
+<p><code>6.表示层</code>：表示层提供格式化的表示和转换数据服务（如数据的压缩和解压缩， 加密和解密等）。</p>
+<hr>
+<p><code>7.应用层</code>：应用层为用户的应用程序（例如电子邮件、文件传输和终端仿真）提供网络服务。即程序需要的具体格式的数据，例如SMTP、DNS和FTP都是7层协议。</p>
+<h2 id="OSI模型与TCP-IP模型"><a href="#OSI模型与TCP-IP模型" class="headerlink" title="OSI模型与TCP/IP模型"></a>OSI模型与TCP/IP模型</h2><p>OSI模型只是一个概念模型，实际上在互联网中应用的是TCP/IP模型</p>
+<p><img src="/imgs/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82/OSI%E6%A8%A1%E5%9E%8B%E4%B8%8ETCPIP%E6%A8%A1%E5%9E%8B.jpg" alt="OSI模型"></p>
+<h2 id="网络分层的好处与坏处"><a href="#网络分层的好处与坏处" class="headerlink" title="网络分层的好处与坏处"></a>网络分层的好处与坏处</h2><p><code>好处</code>：本层的改动对其他层没有影响（比如在网络层IPv4升IPv6对于我们应用层没有任何的影响）。这样开发人员可以只关注整个结构中的一层更易于实现和维护，也可以很容易用新的实现代替旧的实践，降低了层与层之间的依赖，同时有利于标准化。</p>
+<hr>
+<p><code>坏处</code>：每一层传输都需要做处理，中间产生的数据延迟会导致性能下降。</p>
+<h2 id="网络分层在报文中的体现"><a href="#网络分层在报文中的体现" class="headerlink" title="网络分层在报文中的体现"></a>网络分层在报文中的体现</h2><p><img src="/imgs/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82/%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82%E5%9C%A8%E6%8A%A5%E6%96%87%E4%B8%AD%E7%9A%84%E4%BD%93%E7%8E%B0.jpg" alt="OSI模型"></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">网络协议</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OSI%E6%A8%A1%E5%9E%8B/" rel="tag">OSI模型</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP%E6%A8%A1%E5%9E%8B/" rel="tag">TCP/IP模型</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC80OTg0OS8yNjM0MA">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/URI/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          【HTTP协议】URI
+        
+      </div>
+    </a>
+  
+  
+    <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E6%8C%87%E4%BB%A4%E8%A7%A3%E6%9E%90/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">（八）指令解析</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#OSI模型"><span class="nav-number">1.</span> <span class="nav-text">OSI模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OSI模型与TCP-IP模型"><span class="nav-number">2.</span> <span class="nav-text">OSI模型与TCP&#x2F;IP模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络分层的好处与坏处"><span class="nav-number">3.</span> <span class="nav-text">网络分层的好处与坏处</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络分层在报文中的体现"><span class="nav-number">4.</span> <span class="nav-text">网络分层在报文中的体现</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/history" class="mobile-nav-link">全部文章</a>
+  
+    <a href="/categories/Vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3" class="mobile-nav-link">Vue深入理解</a>
+  
+    <a href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE" class="mobile-nav-link">网络协议</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+        &copy; 2021 Eagune&#39;s Blog All Rights Reserved.
+        <script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1278845757'%3E%3C/span%3E%3Cscript src='https://s4.cnzz.com/z_stat.php%3Fid%3D1278845757%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/bootstrap.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1278845757&web_id=1278845757" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+  <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+</body>
+</html>

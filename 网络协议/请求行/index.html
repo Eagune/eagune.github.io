@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>【HTTP协议】请求行 | Eagune&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="网络协议HTTP协议请求行" />
+  
+  
+  
+    <meta name="baidu-site-verification" content="ECCDdNqnWk" />
+  
+  
+  <meta name="description" content="请求行结构请求行(request-line)由请求方法(method)、 请求对象(request-target)、 HTTP版本(HTTP-version)构成格式如下：  request-line &#x3D; method &lt;SP&gt; request-target &lt;SP&gt; HTTP-version &lt;CRLF&gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【HTTP协议】请求行">
+<meta property="og:url" content="https://eagune.github.io/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E8%AF%B7%E6%B1%82%E8%A1%8C/index.html">
+<meta property="og:site_name" content="Eagune&#39;s Blog">
+<meta property="og:description" content="请求行结构请求行(request-line)由请求方法(method)、 请求对象(request-target)、 HTTP版本(HTTP-version)构成格式如下：  request-line &#x3D; method &lt;SP&gt; request-target &lt;SP&gt; HTTP-version &lt;CRLF&gt;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://eagune.github.io/imgs/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E8%AF%B7%E6%B1%82%E8%A1%8C.jpg">
+<meta property="article:published_time" content="2020-05-20T22:21:41.000Z">
+<meta property="article:modified_time" content="2021-10-19T09:58:23.679Z">
+<meta property="article:author" content="Eagune">
+<meta property="article:tag" content="网络协议">
+<meta property="article:tag" content="HTTP协议">
+<meta property="article:tag" content="请求行">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://eagune.github.io/imgs/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E8%AF%B7%E6%B1%82%E8%A1%8C.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Eagune&#39;s Blog" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  <link rel="apple-touch-icon-precomposed" href="css/images/icon.jpg"/>
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+  <link rel="stylesheet" href="/css/fashion.css" >
+  <link rel="stylesheet" href="/css/glyphs.css" >
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+
+
+<header id="allheader" class="site-header" role="banner" 
+   >
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="Eagune&#39;s Blog" rel="home"> Eagune&#39;s Blog </a>
+            
+          </h1>
+          
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows"  style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/">首页</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/history">全部文章</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/categories/Vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3">vue深入理解</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE">网络协议</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-网络协议/请求行" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/imgs/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E8%AF%B7%E6%B1%82%E8%A1%8C.jpg" rel="gallery_ckuxwyv6x000sb1na6d52b0qy">
+        <img src="/imgs/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E8%AF%B7%E6%B1%82%E8%A1%8C.jpg" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      【HTTP协议】请求行
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<time datetime="2020-05-20T22:21:41.000Z" itemprop="datePublished">五月 20, 2020</time>
+
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">网络协议</a>
+ 
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="请求行结构"><a href="#请求行结构" class="headerlink" title="请求行结构"></a>请求行结构</h2><p>请求行(request-line)由请求方法(method)、 请求对象(request-target)、 HTTP版本(HTTP-version)构成<br>格式如下：</p>
+<blockquote>
+<p><code>request-line</code> = <code>method</code> &lt;SP&gt; <code>request-target</code> &lt;SP&gt; <code>HTTP-version</code> &lt;CRLF&gt;</p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="请求方法-method"><a href="#请求方法-method" class="headerlink" title="请求方法(method)"></a>请求方法(method)</h2><ul>
+<li><h3 id="常见方法"><a href="#常见方法" class="headerlink" title="常见方法"></a>常见方法</h3><ol>
+<li><code>GET</code> 主要获取信息的方法，<font color="#00aced">幂等方法</font></li>
+<li><code>HEAD</code> 用于获取HEAD元数据，<font color="#00aced">幂等方法</font></li>
+<li><code>POST</code> 用于提交FORM表单，新增资源等</li>
+<li><code>PUT</code> 更新资源，带条件时是幂等方法</li>
+<li><code>DELETE</code> 删除资源，<font color="#00aced">幂等方法</font></li>
+<li><code>CONNECT</code> 建立tunnel隧道</li>
+<li><code>OPTIONS</code> 显示服务器对访问资源的支持方法，<font color="#00aced">幂等方法</font></li>
+<li><code>TRACE</code> 回显服务器收到的请求，<font color="red">有安全风险</font></li>
+</ol>
+</li>
+</ul>
+<hr>
+<ul>
+<li><h3 id="WEBDAV方法"><a href="#WEBDAV方法" class="headerlink" title="WEBDAV方法"></a>WEBDAV方法</h3><ol>
+<li><code>PROPFIND</code> 从Web资源钟检索以XML格式存储的属性。他也被重载，以允许一个检索远程系统的集合结构（也叫目录层次结构）</li>
+<li><code>PROPPATCH</code> 在单个原子性动作中更改和删除资源的多个属性</li>
+<li><code>MKCOL</code> 创建集合或者目录</li>
+<li><code>COPY</code> 将资源从一个 URI 复制到另一个</li>
+<li><code>MOVE</code> 将资源从一个 URI 移动到另一个 URI</li>
+<li><code>LOCK</code> 锁定一个资源。 WebDAV支持共享锁和互斥锁</li>
+<li><code>UNLOCK</code> 解除资源的锁定</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2 id="请求对象-request-target"><a href="#请求对象-request-target" class="headerlink" title="请求对象(request-target)"></a>请求对象(request-target)</h2><ol>
+<li><code>origin-form</code>：<code>absolute-path[&quot;?&quot;query]</code> 向origin server发起的请求，path为空时必须传递/<blockquote>
+<p><code>GET /where?q=now HTTP/1.1</code></p>
+</blockquote>
+</li>
+<li><code>absolute-form</code>：<code>absolute-URI</code> 仅用于向正向代理proxy发起请求时，详见正向代理与隧道<blockquote>
+<p><code>GET http://www.example.org/pub/WWW/TheProject.html HTTP/1.1</code></p>
+</blockquote>
+</li>
+<li><code>authority-form</code>：<code>authority</code>  仅用于CONNECT方法<blockquote>
+<p><code>CONNECT www.example.com:80 HTTP/1.1</code></p>
+</blockquote>
+</li>
+<li><code>asterisk-form</code>：<code>&quot;*&quot;</code> 仅用于OPTIONS方法<blockquote>
+<p><code>OPTIONS * HTTP/1.1</code></p>
+</blockquote>
+</li>
+</ol>
+<hr>
+<h2 id="HTTP版本-HTTP-version"><a href="#HTTP版本-HTTP-version" class="headerlink" title="HTTP版本(HTTP-version)"></a>HTTP版本(HTTP-version)</h2>
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">网络协议</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP%E5%8D%8F%E8%AE%AE/" rel="tag">HTTP协议</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag">网络协议</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%B7%E6%B1%82%E8%A1%8C/" rel="tag">请求行</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC80OTg0OS8yNjM0MA">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E7%BB%88%E7%AB%AF%E6%8C%87%E4%BB%A4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          （九）终端指令
+        
+      </div>
+    </a>
+  
+  
+    <a href="/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/URI/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">【HTTP协议】URI</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#请求行结构"><span class="nav-number">1.</span> <span class="nav-text">请求行结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#请求方法-method"><span class="nav-number">2.</span> <span class="nav-text">请求方法(method)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常见方法"><span class="nav-number">2.1.</span> <span class="nav-text">常见方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WEBDAV方法"><span class="nav-number">2.2.</span> <span class="nav-text">WEBDAV方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#请求对象-request-target"><span class="nav-number">3.</span> <span class="nav-text">请求对象(request-target)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP版本-HTTP-version"><span class="nav-number">4.</span> <span class="nav-text">HTTP版本(HTTP-version)</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/history" class="mobile-nav-link">全部文章</a>
+  
+    <a href="/categories/Vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3" class="mobile-nav-link">Vue深入理解</a>
+  
+    <a href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE" class="mobile-nav-link">网络协议</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+        &copy; 2021 Eagune&#39;s Blog All Rights Reserved.
+        <script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1278845757'%3E%3C/span%3E%3Cscript src='https://s4.cnzz.com/z_stat.php%3Fid%3D1278845757%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/bootstrap.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1278845757&web_id=1278845757" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+  <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+CACHE MANIFEST
+#ver:75069f221d8deb799f2dfbbe9d9436267f9bc851
+#plugin:4.9.0
+
+CACHE:
+/demo/
+/demo/client.js
+/demo/client.css
+/demo/vendor.js
+/demo/vendor.css
+
+NETWORK:
+*
+
+FALLBACK:
+/ /

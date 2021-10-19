@@ -1,0 +1,35 @@
+.column {
+  display: inline-block;
+  width: 50%;
+  margin-bottom: 20px;
+  vertical-align: bottom;
+}
+@media mq-mobile {
+  .column {
+    width: 100%;
+  }
+  .column.empty footer,
+  .column.empty hr {
+    display: none;
+  }
+}
+.column img {
+  width: 200px;
+  height: 276px;
+}
+@media mq-mobile {
+  .column img {
+    width: 100%;
+    height: 100%;
+  }
+}
+.column .title {
+  font-size: 1.5em;
+  text-decoration: none;
+  color: #333;
+  transition: color 0.2s;
+  line-height: 1em;
+}
+.column .title:hover {
+  color: color-theme;
+}

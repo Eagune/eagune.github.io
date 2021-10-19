@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>（八）指令解析 | Eagune&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="vue指令解析" />
+  
+  
+  
+    <meta name="baidu-site-verification" content="ECCDdNqnWk" />
+  
+  
+  <meta name="description" content="指令解析指令的解析和之前的文本解析差不多，我们都需要遍历节点最后执行compileNode进行解析，这里我们加一个判断如果节点是元素我们就进入我们的指令解析compileDirectives。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="（八）指令解析">
+<meta property="og:url" content="https://eagune.github.io/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E6%8C%87%E4%BB%A4%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:site_name" content="Eagune&#39;s Blog">
+<meta property="og:description" content="指令解析指令的解析和之前的文本解析差不多，我们都需要遍历节点最后执行compileNode进行解析，这里我们加一个判断如果节点是元素我们就进入我们的指令解析compileDirectives。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://eagune.github.io/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E6%8C%87%E4%BB%A4%E8%A7%A3%E6%9E%90.jpg">
+<meta property="article:published_time" content="2020-05-16T20:42:31.000Z">
+<meta property="article:modified_time" content="2021-10-19T09:58:23.679Z">
+<meta property="article:author" content="Eagune">
+<meta property="article:tag" content="vue">
+<meta property="article:tag" content="指令">
+<meta property="article:tag" content="解析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://eagune.github.io/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E6%8C%87%E4%BB%A4%E8%A7%A3%E6%9E%90.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Eagune&#39;s Blog" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  <link rel="apple-touch-icon-precomposed" href="css/images/icon.jpg"/>
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+  <link rel="stylesheet" href="/css/fashion.css" >
+  <link rel="stylesheet" href="/css/glyphs.css" >
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+
+
+<header id="allheader" class="site-header" role="banner" 
+   >
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="Eagune&#39;s Blog" rel="home"> Eagune&#39;s Blog </a>
+            
+          </h1>
+          
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows"  style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/">首页</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/history">全部文章</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/categories/Vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3">vue深入理解</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE">网络协议</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-vue深入理解/指令解析" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E6%8C%87%E4%BB%A4%E8%A7%A3%E6%9E%90.jpg" rel="gallery_ckuxwyv6p000ab1na67hs9quh">
+        <img src="/imgs/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/%E6%8C%87%E4%BB%A4%E8%A7%A3%E6%9E%90.jpg" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      （八）指令解析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<time datetime="2020-05-16T20:42:31.000Z" itemprop="datePublished">五月 16, 2020</time>
+
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/Vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">Vue深入理解</a>
+ 
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="指令解析"><a href="#指令解析" class="headerlink" title="指令解析"></a>指令解析</h2><p>指令的解析和之前的文本解析差不多，我们都需要遍历节点最后执行<code>compileNode</code>进行解析，这里我们加一个判断如果节点是元素我们就进入我们的指令解析<code>compileDirectives</code>。</p>
+<a id="more"></a>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compileNode</span> (<span class="params">node</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> type = node.nodeType</span><br><span class="line">  <span class="keyword">if</span> (type === <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> compileElement(node)</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type === <span class="number">3</span> &amp;&amp; node.data.trim()) &#123;</span><br><span class="line">    compileTextNode(node)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compileElement</span> (<span class="params">el</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> hasAttrs = el.hasAttributes()</span><br><span class="line">  <span class="keyword">var</span> attrs = hasAttrs &amp;&amp; toArray(el.attributes)</span><br><span class="line">  compileDirectives(el, attrs)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重点是这个<code>compileDirectives</code>，对于v-on指令和v-bind指令由于他们有特殊的绑定格式所以需要单独拿出来，其中bind指令对于style和class的绑定的处理也不一样，都需要分别进行处理，最后才是通用的指令解析。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> onRE = <span class="regexp">/^v-on:|^@/</span></span><br><span class="line"><span class="keyword">var</span> bindRE = <span class="regexp">/^v-bind:|^:/</span></span><br><span class="line"><span class="keyword">var</span> dirAttrRE = <span class="regexp">/^v-([^:]+)(?:$|:(.*)$)/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compileDirectives</span> (<span class="params">el, attrs</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> i = attrs.length</span><br><span class="line">  <span class="keyword">var</span> dirs = []</span><br><span class="line">  <span class="keyword">var</span> attr, name, rawName, rawValue, value, dirName, arg, dirDef, matched</span><br><span class="line">  <span class="keyword">while</span> (i--) &#123;</span><br><span class="line">    attr = attrs[i]</span><br><span class="line">    name = rawName = attr.name</span><br><span class="line">    value = rawValue = attr.value</span><br><span class="line">    <span class="keyword">var</span> descriptor = &#123;</span><br><span class="line">      attr: rawName,</span><br><span class="line">      raw: rawValue,</span><br><span class="line">      expression: value</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (onRE.test(name)) &#123;</span><br><span class="line">      descriptor.name = <span class="string">'on'</span></span><br><span class="line">      arg = name.replace(onRE, <span class="string">''</span>)</span><br><span class="line">      dirDef = publicDirectives.on</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (bindRE.test(name)) &#123;</span><br><span class="line">      descriptor.name = <span class="string">'bind'</span></span><br><span class="line">      arg = dirName = name.replace(bindRE, <span class="string">''</span>)</span><br><span class="line">      <span class="keyword">if</span> (dirName === <span class="string">'style'</span> || dirName === <span class="string">'class'</span>) &#123;</span><br><span class="line">        dirDef = internalDirectives[dirName]</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        dirDef = publicDirectives.bind</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ((matched = name.match(dirAttrRE))) &#123;</span><br><span class="line">      dirName = matched[<span class="number">1</span>]</span><br><span class="line">      arg = matched[<span class="number">2</span>]</span><br><span class="line">      dirDef = publicDirectives[dirName]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (dirDef) &#123;</span><br><span class="line">      descriptor.arg = arg</span><br><span class="line">      descriptor.def = dirDef</span><br><span class="line">      <span class="keyword">new</span> Directive(descriptor, data, el)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面我们看看这些指令的具体行为：</p>
+<h2 id="v-on指令"><a href="#v-on指令" class="headerlink" title="v-on指令"></a>v-on指令</h2><p>on指令的话比较简单，在descriptor中arg就是我们事件名称，值对应vm中的函数名称，当这个值发生变化的时候首先重置如果之前添加了事件则先移除旧的事件，然后添加事件侦听。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">on</span> (<span class="params">el, event, cb, useCapture</span>) </span>&#123;</span><br><span class="line">  el.addEventListener(event, cb, useCapture)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">off</span> (<span class="params">el, event, cb</span>) </span>&#123;</span><br><span class="line">  el.removeEventListener(event, cb)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> publicDirectives = &#123;</span><br><span class="line">  on: &#123;</span><br><span class="line">    update (handler) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!<span class="keyword">this</span>.descriptor.raw) &#123;</span><br><span class="line">        handler = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">var</span> vm = <span class="keyword">this</span>.vm</span><br><span class="line">      <span class="comment">// reset</span></span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.handler) &#123;</span><br><span class="line">        off(<span class="keyword">this</span>.el, <span class="keyword">this</span>.arg, <span class="keyword">this</span>.handler)</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">this</span>.handler = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> handler.call(vm, e)</span><br><span class="line">      &#125;</span><br><span class="line">      on(<span class="keyword">this</span>.el, <span class="keyword">this</span>.arg, <span class="keyword">this</span>.handler)</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="/demo/vue深入理解/指令解析1.html">查看DEMO</a></p>
+<h2 id="v-bind指令"><a href="#v-bind指令" class="headerlink" title="v-bind指令"></a>v-bind指令</h2><h3 id="对于一般的bind指令"><a href="#对于一般的bind指令" class="headerlink" title="对于一般的bind指令"></a>对于一般的bind指令</h3><ol>
+<li><p>对于<code>value|checked|selected</code>等属性我们不仅需要修改属性的值同时我们还需要修改元素节点上对应的值</p>
+</li>
+<li><p>对于<code>draggable|contenteditable|spellcheck</code>这种枚举型的值我们只允许<code>true</code>和<code>false</code></p>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> attrWithPropsRE = <span class="regexp">/^(?:value|checked|selected|muted)$/</span></span><br><span class="line"><span class="keyword">var</span> enumeratedAttrRE = <span class="regexp">/^(?:draggable|contenteditable|spellcheck)$/</span></span><br><span class="line"><span class="keyword">var</span> publicDirectives = &#123;</span><br><span class="line">  bind: &#123;</span><br><span class="line">    update (value) &#123;</span><br><span class="line">      <span class="keyword">var</span> attr = <span class="keyword">this</span>.arg</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.arg) &#123;</span><br><span class="line">        <span class="keyword">this</span>.handleSingle(attr, value)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    handleSingle (prop, value) &#123;</span><br><span class="line">      <span class="keyword">if</span> (attrWithPropsRE.test(attr) &amp;&amp; attr <span class="keyword">in</span> el) &#123;</span><br><span class="line">        <span class="keyword">var</span> attrValue = attr === <span class="string">'value'</span></span><br><span class="line">          ? value == <span class="literal">null</span> ? <span class="string">''</span> : value</span><br><span class="line">          : value</span><br><span class="line">        <span class="keyword">if</span> (el[attr] !== attrValue) &#123;</span><br><span class="line">          el[attr] = attrValue</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (enumeratedAttrRE.test(attr)) &#123;</span><br><span class="line">        el.setAttribute(attr, value ? <span class="string">'true'</span> : <span class="string">'false'</span>)</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (value != <span class="literal">null</span> &amp;&amp; value !== <span class="literal">false</span>) &#123;</span><br><span class="line">        el.setAttribute(attr, value === <span class="literal">true</span> ? <span class="string">''</span> : value)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        el.removeAttribute(attr)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="对于style指令"><a href="#对于style指令" class="headerlink" title="对于style指令"></a>对于style指令</h3><p>style指令支持字符串、数组、对象。如果是字符串直接修改cssText，如果是数组则先把所有属性合并成一个对象，最后处理和对象的处理是一样的。</p>
+<p><code>handleObject</code>将指令绑定对象的所有的属性缓存起来，只有当发生变化的属性才做处理，同时如果属性被移除了也要做相应的处理。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> internalDirectives = &#123;</span><br><span class="line">  style: &#123;</span><br><span class="line">    update (value) &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">'string'</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.el.style.cssText = value</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(value)) &#123;</span><br><span class="line">        <span class="keyword">this</span>.handleObject(value.reduce(extend, &#123;&#125;))</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.handleObject(value || &#123;&#125;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    handleObject (value) &#123;</span><br><span class="line">      <span class="comment">// cache object styles so that only changed props</span></span><br><span class="line">      <span class="comment">// are actually updated.</span></span><br><span class="line">      <span class="keyword">var</span> cache = <span class="keyword">this</span>.cache || (<span class="keyword">this</span>.cache = &#123;&#125;)</span><br><span class="line">      <span class="keyword">var</span> name, val</span><br><span class="line">      <span class="keyword">for</span> (name <span class="keyword">in</span> cache) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!(name <span class="keyword">in</span> value)) &#123;</span><br><span class="line">          <span class="keyword">this</span>.handleSingle(name, <span class="literal">null</span>)</span><br><span class="line">          <span class="keyword">delete</span> cache[name]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">for</span> (name <span class="keyword">in</span> value) &#123;</span><br><span class="line">        val = value[name]</span><br><span class="line">        <span class="keyword">if</span> (val !== cache[name]) &#123;</span><br><span class="line">          cache[name] = val</span><br><span class="line">          <span class="keyword">this</span>.handleSingle(name, val)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    handleSingle (prop, value) &#123;</span><br><span class="line">      <span class="comment">// cast possible numbers/booleans into strings</span></span><br><span class="line">      <span class="keyword">if</span> (value != <span class="literal">null</span>) value += <span class="string">''</span></span><br><span class="line">      <span class="keyword">if</span> (value) &#123;</span><br><span class="line">        <span class="keyword">this</span>.el.style[prop] = value</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.el.style[prop] = <span class="string">''</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="对于class指令"><a href="#对于class指令" class="headerlink" title="对于class指令"></a>对于class指令</h3><p>如果绑定值为空了，那么我们把之前的class也清空，如果绑定值是字符串，我们根据空格分隔转化为className数组然后设置为新的class，对于数组或对象的形式我们先执行<code>normalize</code>转换成相应的className数组然后设置为新的class。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> internalDirectives = &#123;</span><br><span class="line">  class: &#123;</span><br><span class="line">    update (value) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!value) &#123;</span><br><span class="line">        <span class="keyword">this</span>.cleanup()</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">'string'</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.setClass(value.trim().split(<span class="regexp">/\s+/</span>))</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.setClass(normalize(value))</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    setClass (value) &#123;</span><br><span class="line">      <span class="keyword">this</span>.cleanup(value)</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, l = value.length; i &lt; l; i++) &#123;</span><br><span class="line">        <span class="keyword">var</span> val = value[i]</span><br><span class="line">        <span class="keyword">if</span> (val) &#123;</span><br><span class="line">          apply(<span class="keyword">this</span>.el, val, addClass)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">this</span>.prevKeys = value</span><br><span class="line">    &#125;,</span><br><span class="line">    cleanup (value) &#123;</span><br><span class="line">      <span class="keyword">const</span> prevKeys = <span class="keyword">this</span>.prevKeys</span><br><span class="line">      <span class="keyword">if</span> (!prevKeys) <span class="keyword">return</span></span><br><span class="line">      <span class="keyword">var</span> i = prevKeys.length</span><br><span class="line">      <span class="keyword">while</span> (i--) &#123;</span><br><span class="line">        <span class="keyword">var</span> key = prevKeys[i]</span><br><span class="line">        <span class="keyword">if</span> (!value || value.indexOf(key) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">          apply(<span class="keyword">this</span>.el, key, removeClass)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>normalize</code>对于数组的每一项先判断是否是字符串，如果是字符串那么直接加入结果，如果是对象的形式则遍历每一项加入，对于对象则直接遍历加入。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">normalize</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> res = []</span><br><span class="line">  <span class="keyword">if</span> (isArray(value)) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, l = value.length; i &lt; l; i++) &#123;</span><br><span class="line">      <span class="keyword">const</span> key = value[i]</span><br><span class="line">      <span class="keyword">if</span> (key) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> key === <span class="string">'string'</span>) &#123;</span><br><span class="line">          res.push(key)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">for</span> (<span class="keyword">var</span> k <span class="keyword">in</span> key) &#123;</span><br><span class="line">            <span class="keyword">if</span> (key[k]) res.push(k)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isObject(value)) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> value) &#123;</span><br><span class="line">      <span class="keyword">if</span> (value[key]) res.push(key)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setClass</span> (<span class="params">el, cls</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (isIE9 &amp;&amp; !<span class="regexp">/svg$/</span>.test(el.namespaceURI)) &#123;</span><br><span class="line">    el.className = cls</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    el.setAttribute(<span class="string">'class'</span>, cls)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addClass</span> (<span class="params">el, cls</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (el.classList) &#123;</span><br><span class="line">    el.classList.add(cls)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> cur = <span class="string">' '</span> + getClass(el) + <span class="string">' '</span></span><br><span class="line">    <span class="keyword">if</span> (cur.indexOf(<span class="string">' '</span> + cls + <span class="string">' '</span>) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">      setClass(el, (cur + cls).trim())</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">removeClass</span> (<span class="params">el, cls</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (el.classList) &#123;</span><br><span class="line">    el.classList.remove(cls)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> cur = <span class="string">' '</span> + getClass(el) + <span class="string">' '</span></span><br><span class="line">    <span class="keyword">var</span> tar = <span class="string">' '</span> + cls + <span class="string">' '</span></span><br><span class="line">    <span class="keyword">while</span> (cur.indexOf(tar) &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">      cur = cur.replace(tar, <span class="string">' '</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    setClass(el, cur.trim())</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (!el.className) &#123;</span><br><span class="line">    el.removeAttribute(<span class="string">'class'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">apply</span> (<span class="params">el, key, fn</span>) </span>&#123;</span><br><span class="line">  key = key.trim()</span><br><span class="line">  <span class="keyword">if</span> (key.indexOf(<span class="string">' '</span>) === <span class="number">-1</span>) &#123;</span><br><span class="line">    fn(el, key)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// The key contains one or more space characters.</span></span><br><span class="line">  <span class="comment">// Since a class name doesn't accept such characters, we</span></span><br><span class="line">  <span class="comment">// treat it as multiple classes.</span></span><br><span class="line">  <span class="keyword">var</span> keys = key.split(<span class="regexp">/\s+/</span>)</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, l = keys.length; i &lt; l; i++) &#123;</span><br><span class="line">    fn(el, keys[i])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p><a href="/demo/vue深入理解/指令解析2.html">查看DEMO</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/Vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">Vue深入理解</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8C%87%E4%BB%A4/" rel="tag">指令</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A7%A3%E6%9E%90/" rel="tag">解析</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC80OTg0OS8yNjM0MA">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          网络分层
+        
+      </div>
+    </a>
+  
+  
+    <a href="/vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/Directives%E8%A1%8C%E4%B8%BA%E9%A2%84%E8%AE%BE/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">（七）Directives行为预设</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#指令解析"><span class="nav-number">1.</span> <span class="nav-text">指令解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#v-on指令"><span class="nav-number">2.</span> <span class="nav-text">v-on指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#v-bind指令"><span class="nav-number">3.</span> <span class="nav-text">v-bind指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对于一般的bind指令"><span class="nav-number">3.1.</span> <span class="nav-text">对于一般的bind指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对于style指令"><span class="nav-number">3.2.</span> <span class="nav-text">对于style指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对于class指令"><span class="nav-number">3.3.</span> <span class="nav-text">对于class指令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo"><span class="nav-number">4.</span> <span class="nav-text">Demo</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/history" class="mobile-nav-link">全部文章</a>
+  
+    <a href="/categories/Vue%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3" class="mobile-nav-link">Vue深入理解</a>
+  
+    <a href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE" class="mobile-nav-link">网络协议</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+        &copy; 2021 Eagune&#39;s Blog All Rights Reserved.
+        <script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1278845757'%3E%3C/span%3E%3Cscript src='https://s4.cnzz.com/z_stat.php%3Fid%3D1278845757%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/bootstrap.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1278845757&web_id=1278845757" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+  <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+</body>
+</html>
