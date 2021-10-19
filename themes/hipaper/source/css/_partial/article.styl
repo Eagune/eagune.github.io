@@ -448,7 +448,10 @@ $article-gallery-ctrl
   line-height 1em
   font-size 0.9em
   float left
-  overflow: hidden
+  overflow: auto
+  &::-webkit-scrollbar {
+    display: none
+  }
   @media mq-mobile
     display: none
   @media mq-tablet
@@ -458,6 +461,7 @@ $article-gallery-ctrl
   position: fixed;
   width: inherit !important
   top: 30px;
+  bottom: 80px;
   margin-top: 0;
   overflow: hidden;
   z-index: 1;
